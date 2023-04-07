@@ -9,38 +9,38 @@
     <title>Idle Game</title>
   </head>
   <body>
-    <div id="monitor-container">
-      <div id="left-monitor">left monitor</div>
-      <div>
-        <div id="top-right-monitor">
-          <div id="top-right-monitor-right">
-            <div id="profile-picture">profile picture</div>
-            <div id="player-name">player name</div>
-          </div>
-          <div id="top-right-monitor-left">
-            <div id="startup-name">player name's software startup</div>
-            <p>Clicks: <a id="clicks">0</a></p>
-            <div id="profit-per-second">$100 per second</div>
-            <div id="sprint-meme-container">sprint and meme container</div>
-          </div>
+    <div class="wrapper">
+      <div id="display-container">
+        <div id="left" class="monitor">
+          <img
+          class="monitor-image"
+          src="./images/vertical-monitor.png"
+          alt="monitor screen"
+          />
+          <div id="clicks">0</div>
         </div>
-        <div id="bottom-right-monitor">bottom right monitor</div>
+        <div id="top-right" class="monitor">
+          <img
+            class="monitor-image"
+            src="./images/monitor.png"
+            alt="monitor screen"
+          />
+        </div>
+        <div id="bottom-right" class="monitor">
+          <img
+            class="monitor-image"
+            src="./images/monitor.png"
+            alt="monitor screen"
+          />
+        </div>
+        <!-- <div id="desk">keyboard mouse</div> -->
       </div>
     </div>
-    <div id="empty-space">empty space</div>
-    <div id="desk">keyboard mouse</div>
 
-
-
-
-
-
-
-    
     <!-- <div id="intro-screen">
       <button onclick="askForName()" id="play-btn">play</button>
     </div> -->
-    
+
     <button onclick="incrementClick()" id="sprite-button">click</button>
     <button onclick="incrementClickMultiplier(1)" id="sprite-button">
       upgrade +1 to click power
