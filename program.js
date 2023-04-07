@@ -1,28 +1,46 @@
-const app = () => {
-  //Selectors
-  const spriteButton = document.getElementById("sprite-button");
-  const counter = document.querySelector("counter");
+//Declare variables
+let playerName;
+var clicks = 0;
+var clickMultiplier = 1;
+var passiveClickMultiplier = 1;
 
-  function incrementCounter(currentCount) {
-    return currentCount++;
-  }
-  let x = 0;
+//DOM selectors
+let countDisplayElement = document.getElementById("clicks");
+console.log(countDisplayElement);
 
-  setTimeout(() => {
-    console.log("delay");
-  }, "1000");
-};
-app();
-// window.onload = function () {
-//   var x = 0,
-//     max = 3000,
-//     ctr = document.getElementById("counter");
+//Functions
+function incrementClick() {
+  clicks += clickMultiplier;
+  document.getElementById("clicks").innerHTML = clicks;
+}
 
-//   function incrementCounter() {
-//     ctr.innerHTML = x;
-//     if (x++ < max) {
-//       setTimeout(incrementCounter, 100);
-//     }
-//   }
-//   incrementCounter();
-// };
+function incrementClickMultiplier(x) {
+  clickMultiplier += x;
+}
+
+function passiveIncrementCountMultiplier(x) {
+  passiveClickMultiplier += x;
+}
+
+function passiveIncrementCount() {
+  const intervalId = setInterval(() => {
+    clicks = passiveClickMultiplier + clicks;
+    document.getElementById("clicks").innerHTML = clicks;
+  }, 1000);
+}
+
+function askForName() {
+  let playBtn = document.getElementById("play-btn");
+  let parent = document.getElementById("intro-screen");
+  let nameInput = document.createElement("input");
+  let nameSubmitBtn = document.createElement("button");
+  nameSubmitBtn.textContent = "submit";
+  nameSubmitBtn.onclick = () => {
+    playerName = nameInput.value;
+    parent.removeChild(nameInput);
+    parent.removeChild(nameSubmitBtn);
+  };
+  parent.removeChild(playBtn);
+  parent.appendChild(nameInput);
+  parent.appendChild(nameSubmitBtn);
+}
