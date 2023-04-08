@@ -12,44 +12,43 @@
     <div class="wrapper">
       <div id="display-container">
         <div id="left" class="monitor">
-          <img
+          <!-- <img
             class="monitor-image"
             src="./images/vertical-monitor.png"
             alt="monitor screen"
-          />
-          <div id="clicks">0</div>
+          /> -->
+          <!-- <div id="clicks">0</div> -->
         </div>
         <div id="top-right" class="monitor">
-          <img
+          <!-- <img
             class="monitor-image"
             src="./images/monitor.png"
             alt="monitor screen"
-          />
+          /> -->
         </div>
         <div id="bottom-right" class="monitor">
-          <img
+          <!-- <img
             class="monitor-image"
             src="./images/monitor.png"
             alt="monitor screen"
-          />
+          /> -->
         </div>
-        <!-- <div id="desk">keyboard mouse</div> -->
       </div>
+      <!-- <div id="desk">keyboard mouse</div> -->
+      <button onclick="incrementClick()" id="sprite-button">click</button>
+      <button onclick="incrementClickMultiplier(1)" id="sprite-button">
+        upgrade +1 to click power
+      </button>
+      <button onclick="passiveIncrementCount()" id="sprite-button">
+        building1 (+1/sec)
+      </button>
+      <button onclick="passiveIncrementCountMultiplier(10)" id="sprite-button">
+        building1 upgrade (*10/sec)
+      </button>
     </div>
 
     <!-- <div id="intro-screen">
       <button onclick="askForName()" id="play-btn">play</button>
     </div> -->
-
-    <button onclick="incrementClick()" id="sprite-button">click</button>
-    <button onclick="incrementClickMultiplier(1)" id="sprite-button">
-      upgrade +1 to click power
-    </button>
-    <button onclick="passiveIncrementCount()" id="sprite-button">
-      building1 (+1/sec)
-    </button>
-    <button onclick="passiveIncrementCountMultiplier(10)" id="sprite-button">
-      building1 upgrade (*10/sec)
-    </button>
   </body>
 </html>

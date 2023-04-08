@@ -1,0 +1,41 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+#display-container {
+  background-color: rgba(190, 86, 131, 0.1);
+  width: 78vh;
+  height: 57vh;
+  display: grid;
+  grid-template: 1fr 8fr 1fr 7fr 2fr/9fr 1fr 16fr;
+}
+
+#left {
+  background-image: url("./images/vertical-monitor.png");
+  grid-area: 2/1/5/2;
+  background-size: cover;
+}
+
+#top-right {
+  background-image: url("./images/monitor.png");
+  grid-area: 1/3/3/4;
+  background-size: cover;
+}
+
+#bottom-right {
+  background-image: url("./images/monitor.png");
+  grid-area: 4/3/6/4;
+  background-size: cover;
+}
+
+/*# sourceMappingURL=style.css.map */
