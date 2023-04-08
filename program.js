@@ -44,3 +44,12 @@ function askForName() {
   parent.appendChild(nameInput);
   parent.appendChild(nameSubmitBtn);
 }
+
+
+
+//EXPERIMENTAL
+class Counter{
+  constructor(){
+    
+  }
+}
