@@ -1,6 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen&display=swap");
+
 $pink: rgb(190, 86, 131, 0.1);
-$horizontal-monitor: url("./images/monitor.png");
-$vertical-monitor: url("./images/vertical-monitor.png");
+$horizontal-monitor: url("./images/simple-monitor.png");
+$vertical-monitor: url("./images/simple-vertical-monitor.png");
+$background-image: url("./images/clear-background.png");
+
 @mixin center() {
   //   background-color: $pink;
   display: flex;
@@ -11,13 +15,15 @@ $vertical-monitor: url("./images/vertical-monitor.png");
 * {
   padding: 0;
   margin: 0;
+  font-family: "Silkscreen", cursive;
+  font-size: 10px;
 }
 .wrapper {
   @include center;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background-image: url("./images/clear-background.png");
+  background-image: $background-image;
   background-size: cover;
 }
 
@@ -28,6 +34,10 @@ $vertical-monitor: url("./images/vertical-monitor.png");
   height: 57vh;
   display: grid;
   grid-template: 1fr 8fr 1fr 7fr 2fr / 9fr 1fr 16fr;
+}
+
+.monitor {
+  padding: 2.5rem;
 }
 
 #left {
