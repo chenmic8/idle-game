@@ -23,6 +23,7 @@ body {
   width: 80vw;
   background-image: url("./images/clear-background.png");
   background-size: cover;
+  justify-content: flex-end;
 }
 
 #display-container {
@@ -52,6 +53,18 @@ body {
   background-image: url("./images/simple-monitor.png");
   grid-area: 4/3/6/4;
   background-size: cover;
+}
+
+#desk {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/desk-keyboard.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  height: 10vh;
+  width: 50vw;
 }
 
 /*# sourceMappingURL=style.css.map */

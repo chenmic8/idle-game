@@ -17,35 +17,29 @@
             src="./images/vertical-monitor.png"
             alt="monitor screen"
           /> -->
-          <!-- <div id="clicks">0</div> -->
         </div>
         <div id="top-right" class="monitor">
           <p>this is the top right monitor and this text is detailed</p>
-          <!-- <img
-            class="monitor-image"
-            src="./images/monitor.png"
-            alt="monitor screen"
-          /> -->
+          <p>clicks: <div id="clicks">0</div></p>
         </div>
         <div id="bottom-right" class="monitor">
-          <!-- <img
-            class="monitor-image"
-            src="./images/monitor.png"
-            alt="monitor screen"
-          /> -->
-        </div>
+          <button onclick="incrementClickMultiplier(1)" id="sprite-button">
+            upgrade +1 to click power
+          </button>
+          <button onclick="passiveIncrementCount()" id="sprite-button">
+            building1 (+1/sec)
+          </button>
+          <button
+          onclick="passiveIncrementCountMultiplier(10)"
+          id="sprite-button"
+          >
+          building1 upgrade (*10/sec)
+        </button>
       </div>
-      <!-- <div id="desk">keyboard mouse</div> -->
-      <button onclick="incrementClick()" id="sprite-button">click</button>
-      <button onclick="incrementClickMultiplier(1)" id="sprite-button">
-        upgrade +1 to click power
-      </button>
-      <button onclick="passiveIncrementCount()" id="sprite-button">
-        building1 (+1/sec)
-      </button>
-      <button onclick="passiveIncrementCountMultiplier(10)" id="sprite-button">
-        building1 upgrade (*10/sec)
-      </button>
+    </div>
+    <div id="desk">
+        <button onclick="incrementClick()" id="sprite-button">click</button>
+      </div>
     </div>
 
     <!-- <div id="intro-screen">

@@ -4,9 +4,9 @@ $pink: rgb(190, 86, 131, 0.1);
 $horizontal-monitor: url("./images/simple-monitor.png");
 $vertical-monitor: url("./images/simple-vertical-monitor.png");
 $background-image: url("./images/clear-background.png");
+$desk: url("./images/desk-keyboard.png");
 
-@mixin center() {
-  //   background-color: $pink;
+@mixin flex-center() {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,18 +20,19 @@ $background-image: url("./images/clear-background.png");
 }
 
 body {
-  @include center;
+  @include flex-center;
   height: 100vh;
   width: 100vw;
 }
 
 .wrapper {
-  @include center;
+  @include flex-center;
   flex-direction: column;
   height: 80vh;
   width: 80vw;
   background-image: $background-image;
   background-size: cover;
+  justify-content: flex-end;
 }
 
 #display-container {
@@ -61,4 +62,15 @@ body {
   background-image: $horizontal-monitor;
   grid-area: 4/3/6/4;
   background-size: cover;
+}
+
+#desk {
+  @include flex-center();
+  background-image: $desk;
+//   background-color: aqua;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  height: 10vh;
+  width: 50vw;
 }
