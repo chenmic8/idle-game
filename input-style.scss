@@ -17,6 +17,8 @@ $vertical-monitor: url("./images/vertical-monitor.png");
   flex-direction: column;
   height: 100vh;
   width: 100vw;
+  background-image: url("./images/clear-background.png");
+  background-size: cover;
 }
 
 #display-container {
