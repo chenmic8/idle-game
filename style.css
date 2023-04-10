@@ -53,6 +53,9 @@ body {
   background-image: url("./images/simple-monitor.png");
   grid-area: 4/3/6/4;
   background-size: cover;
+  display: grid;
+  grid-template: 1fr/2fr 1fr;
+  gap: 10px;
 }
 
 #desk {
@@ -65,6 +68,29 @@ body {
   background-position: center bottom;
   height: 10vh;
   width: 50vw;
+}
+
+.employees-container {
+  display: grid;
+  grid-template: 1fr 1fr 1fr 1fr 1fr 1fr/1fr;
+}
+
+.employee-container {
+  display: grid;
+  place-items: center;
+  grid-template: 1fr/1fr 4fr 1fr;
+}
+.employee-container :hover {
+  cursor: pointer;
+}
+
+.employee-icon {
+  width: 20px;
+}
+
+.upgrades-container {
+  display: grid;
+  grid-template: 1fr 1fr 1fr 1fr 1fr 1fr/1fr 1fr 1fr;
 }
 
 /*# sourceMappingURL=style.css.map */
