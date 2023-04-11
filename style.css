@@ -14,6 +14,12 @@ body {
   width: 100vw;
 }
 
+button {
+  border: 1;
+  margin: 2px;
+  cursor: pointer;
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -41,6 +47,10 @@ body {
   background-image: url("./images/simple-vertical-monitor.png");
   grid-area: 2/1/5/2;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #top-right {
@@ -97,6 +107,14 @@ body {
 .upgrades-container {
   display: grid;
   grid-template: 1fr 1fr 1fr 1fr 1fr 1fr/1fr 1fr 1fr;
+}
+
+.separator {
+  width: 100%;
+}
+
+#left .dollar::before {
+  content: "$";
 }
 
 /*# sourceMappingURL=style.css.map */

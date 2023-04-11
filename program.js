@@ -11,6 +11,14 @@ let codeMonkeyPerSecond = 0;
 //DOM selectors
 const countDisplay = document.getElementById("clicks");
 const spriteBtn = document.getElementById("sprite-button");
+const moneyInBank = document.getElementById("money-in-bank");
+const moneyThisAscension = document.getElementById("money-this-ascension");
+const moneyAllTime = document.getElementById("money-all-time");
+const runTime = document.getElementById("run-time");
+const employeesHired = document.getElementById("employees-hired");
+const moneyPerSecond = document.getElementById("money-per-second");
+const moneyPerClick = document.getElementById("money-per-click");
+const selfMadeMoney = document.getElementById("self-made-money");
 
 const count = {
   currentCount: 0,
@@ -19,6 +27,7 @@ const count = {
   countPerClick: 1,
   countFromClicks: 0,
   countFromPassive: 0,
+  clickAmount: 0,
 };
 
 const clickPower = {
@@ -87,11 +96,14 @@ function calculateTotalEmployeesStatistics() {
     totalCountPerSecond += employee.totalPassiveAmount();
     totalEmployees += 1;
   });
+  employeesHired.textContent = totalEmployees;
+  moneyPerSecond.textContent = totalCountPerSecond;
+
   console.log(
     `${totalEmployees} total employees producing ${totalCountPerSecond}`
   );
 }
-
+//upgrade employee
 function upgradeEmployee(name, amount) {
   employees.forEach((employee) => {
     if (employee.name === name) {
@@ -100,10 +112,14 @@ function upgradeEmployee(name, amount) {
   });
   calculateEmployeeStatistics(name);
 }
-
+//increment count
 function incrementCount(amount) {
   count.currentCount += amount;
   count.allTimeCount += amount;
+  moneyInBank.textContent = count.currentCount;
+  moneyThisAscension.textContent = count.allTimeCount;
+  moneyAllTime.textContent = count.allTimeCount;
+  count.clickAmount++;
 }
 
 function gameInterval() {
@@ -124,6 +140,7 @@ function countPerSecond() {
 function incrementClick() {
   incrementCount(clickPower.clickMultiplier);
   clickPower.clickCount++;
+  calculateClickStatistics();
 }
 function upgradeClick(name, amount) {
   let newClickUpgrade = new ClickUpgrade(name, amount);
@@ -154,6 +171,8 @@ function calculateClickStatistics() {
   });
   console.log(total);
   clickPower.clickMultiplier = total;
+  moneyPerClick.textContent = 1 + clickPower.clickMultiplier;
+  selfMadeMoney.textContent = clickPower.clickCount;
 }
 
 gameInterval();

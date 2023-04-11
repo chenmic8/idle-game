@@ -25,6 +25,11 @@ body {
   width: 100vw;
 }
 
+button {
+  border: 1;
+  margin: 2px;
+  cursor: pointer;
+}
 .wrapper {
   @include flex-center;
   flex-direction: column;
@@ -50,6 +55,8 @@ body {
   background-image: $vertical-monitor;
   grid-area: 2/1/5/2;
   background-size: cover;
+  @include flex-center;
+  flex-direction: column;
 }
 
 #top-right {
@@ -99,4 +106,12 @@ body {
 .upgrades-container {
   display: grid;
   grid-template: 1fr 1fr 1fr 1fr 1fr 1fr/1fr 1fr 1fr;
+}
+.separator {
+  width: 100%;
+}
+#left {
+  .dollar::before {
+    content: "$";
+  }
 }
