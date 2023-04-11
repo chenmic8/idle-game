@@ -8,6 +8,11 @@ let codeMonkeyPerSecond = 0;
 // var clickMultiplier = 1;
 // var passiveClickMultiplier = 1;
 
+console.log("");
+console.log("");
+console.log("");
+console.log("");
+
 //DOM selectors
 const countDisplay = document.getElementById("clicks");
 const spriteBtn = document.getElementById("sprite-button");
