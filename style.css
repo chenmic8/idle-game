@@ -83,6 +83,12 @@ body {
 .employee-container :hover {
   cursor: pointer;
 }
+.employee-container div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
 .employee-icon {
   width: 20px;

@@ -1,6 +1,7 @@
 //Declare variables
 let playerName;
 let employees = [];
+let clickUpgrades = [];
 let intervalId;
 let codeMonkeyPerSecond = 0;
 
@@ -20,15 +21,19 @@ const count = {
   countFromPassive: 0,
 };
 
-const click = {
+const clickPower = {
   clickMultiplier: 1,
   clickCount: 0,
 };
 
 class ClickUpgrade {
-  constructor(name, multiplier) {
+  constructor(name, upgrade) {
     this.name = name;
-    this.multiplier = multiplier;
+    this.upgrade = upgrade;
+    this.multiplier = 1;
+  }
+  totalAmount() {
+    return this.upgrade * this.multiplier;
   }
 }
 
@@ -40,9 +45,6 @@ class Employee {
   }
   totalPassiveAmount() {
     return this.passiveCount * this.passiveMultiplier;
-  }
-  setPassiveMultiplier(passiveMultiplier) {
-    this.passiveMultiplier = passiveMultiplier;
   }
 }
 
@@ -93,7 +95,7 @@ function calculateTotalEmployeesStatistics() {
 function upgradeEmployee(name, amount) {
   employees.forEach((employee) => {
     if (employee.name === name) {
-      employee.passiveMultiplier *= amount;
+      employee.passiveMultiplier += amount;
     }
   });
   calculateEmployeeStatistics(name);
@@ -120,10 +122,38 @@ function countPerSecond() {
 
 //CLICK FUNCTIONS
 function incrementClick() {
-  incrementCount(click.clickMultiplier);
+  incrementCount(clickPower.clickMultiplier);
+  clickPower.clickCount++;
 }
-function upgradeClick() {
-  console.log("here");
+function upgradeClick(name, amount) {
+  let newClickUpgrade = new ClickUpgrade(name, amount);
+
+  clickUpgrades.forEach((clickUpgrade) => {
+    if (clickUpgrade.name === name) {
+      newClickUpgrade.multiplier = clickUpgrade.multiplier;
+    }
+  });
+  clickUpgrades.push(newClickUpgrade);
+  console.log(clickUpgrades);
+  calculateClickStatistics();
+}
+function upgradeClickUpgrade(name, multiplier) {
+  clickUpgrades.forEach((clickUpgrade) => {
+    if (clickUpgrade.name === name) {
+      clickUpgrade.multiplier *= multiplier;
+    }
+  });
+  calculateClickStatistics();
+}
+
+function calculateClickStatistics() {
+  let total = 0;
+
+  clickUpgrades.forEach((clickUpgrade) => {
+    total += clickUpgrade.totalAmount();
+  });
+  console.log(total);
+  clickPower.clickMultiplier = total;
 }
 
 gameInterval();

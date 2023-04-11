@@ -88,6 +88,10 @@ body {
   :hover {
     cursor: pointer;
   }
+  div {
+    @include flex-center;
+    flex-direction: column;
+  }
 }
 .employee-icon {
   width: 20px;
