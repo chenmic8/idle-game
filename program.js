@@ -11,7 +11,7 @@ let codeMonkeyPerSecond = 0;
 console.log("");
 console.log("");
 console.log("");
-console.log("");
+console.log("resolve conflict");
 
 //DOM selectors
 const countDisplay = document.getElementById("clicks");
