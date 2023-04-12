@@ -8,16 +8,76 @@
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(#cf9a9a, pink);
   height: 100vh;
   width: 100vw;
+}
+
+#intro-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/clear-background.png");
+  background-size: cover;
+  height: 80vh;
+  width: 80vw;
+  border: 7px solid white;
+}
+
+h1 {
+  font-size: 4rem;
+  color: white;
+  padding: 5rem;
+  text-shadow: 3px 3px pink;
 }
 
 button {
   border: 1;
   margin: 2px;
   cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.pink-btn {
+  display: inline-block;
+  color: white;
+  padding: 10px 20px;
+  font-size: 2rem;
+  background-color: pink;
+  border-width: 3px;
+  border: 3px solid white;
+}
+
+.pink-btn:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
+  box-shadow: 3px 3px pink;
+}
+
+#submit-name-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#submit-name-container label {
+  font-size: 3rem;
+  color: white;
+  padding: 5rem;
+  text-shadow: 3px 3px pink;
+  padding: 2rem;
+}
+#submit-name-container input {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .wrapper {
@@ -30,6 +90,7 @@ button {
   background-image: url("./images/clear-background.png");
   background-size: cover;
   justify-content: flex-end;
+  border: 7px solid white;
 }
 
 #display-container {

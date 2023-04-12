@@ -8,10 +8,18 @@
     <title>Idle Game</title>
   </head>
   <body>
-    <div class="wrapper">
+    <div id="intro-screen">
+      <h1>Software Startup Simulator</h1>
+      <button onclick="fromStartScreenToNameSelect()" class="pink-btn" id="play-btn">play</button>
+      <div id="submit-name-container" class="hidden">
+        <label for="player-name">Input Name</label>
+        <input name="player-name" type="text">
+        <button class="pink-btn" id="submit-btn" onclick="fromNameSelectToGameInterface()">Submit</button>
+      </div>
+    </div>
+    <div class="wrapper hidden">
       <div id="display-container">
         <div id="left" class="monitor">
-          
           <div class="statistic">Money in bank: </div>
           <span id="money-in-bank" class="dollar">0</span>
           <hr class="separator">
@@ -135,15 +143,12 @@
       </div>
     </div>
     <div id="desk">
-      <button onclick="incrementClick()" id="sprite-button">click</button>
+      <button onclick="click()" id="sprite-button">click</button>
     </div>
 
   </div>
   <script src="program.js"></script>
   
-  <!-- <div id="intro-screen">
-      <button onclick="askForName()" id="play-btn">play</button>
-    </div> -->
   </body>
   </html>
   
