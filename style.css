@@ -157,7 +157,7 @@ button {
   place-items: center;
   grid-template: 1fr/1fr 4fr 1fr;
 }
-.employee-container :hover {
+.employee-container:hover {
   cursor: pointer;
 }
 .employee-container div {

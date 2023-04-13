@@ -328,6 +328,8 @@ const employees = [
   chromeTabOpener,
   keyboardShortcut,
 ];
+
+//dynamically add upgrade buttons
 let i = 0;
 for (employee of employees) {
   for (upgrade of employee.upgrades) {
@@ -526,10 +528,16 @@ function whichEmployee(name) {
 
 function buyUpgrade(name, upgradeIndex) {
   let employee = whichEmployee(name);
+  let upgrade = employee.upgrades[upgradeIndex];
+  const upgradePriceDisplay = document.getElementById(upgrade.priceID);
+  const upgradeTotalDisplay = document.getElementById(upgrade.totalID);
   //check if have enough money to buy the upgrade
-  if (employee.upgrades[upgradeIndex].price <= global.count.current) {
-    employee.upgrades[upgradeIndex].total++;
-    subtractMoneyFromBank(employee.upgrades[upgradeIndex].price);
+  if (upgrade.price <= global.count.current) {
+    subtractMoneyFromBank(upgrade.price);
+    upgrade.total++;
+    upgrade.price *= 1.2;
+    upgradePriceDisplay.textContent = upgrade.price;
+    upgradeTotalDisplay.textContent = upgrade.total;
     console.log(employee);
   } else {
     console.log("not enough money");

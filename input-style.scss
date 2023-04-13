@@ -160,7 +160,7 @@ button {
   display: grid;
   place-items: center;
   grid-template: 1fr / 1fr 4fr 1fr;
-  :hover {
+  &:hover {
     cursor: pointer;
   }
   div {
