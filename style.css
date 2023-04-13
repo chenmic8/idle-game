@@ -33,6 +33,7 @@ h1 {
   color: white;
   padding: 5rem;
   text-shadow: 3px 3px pink;
+  text-align: center;
 }
 
 button {
@@ -213,6 +214,42 @@ button {
 
 #clicks {
   font-size: 2rem;
+}
+
+.upgrade {
+  position: relative;
+}
+.upgrade:hover > .upgrade-popup {
+  visibility: visible;
+}
+.upgrade .upgrade-popup {
+  position: absolute;
+  z-index: 9;
+  top: -10%;
+  left: 110%;
+  background-color: #a6bbce;
+  border: 1px solid black;
+  display: grid;
+  grid-template: 1fr/1fr 5fr;
+  padding: 0.5rem;
+  width: 20vh;
+  visibility: hidden;
+}
+.upgrade .upgrade-popup div {
+  text-align: left;
+}
+
+.quote {
+  font-style: italic;
+  padding: 1rem 0;
+}
+
+li {
+  list-style-position: outside;
+}
+
+.item-description {
+  padding: 0.5rem 0;
 }
 
 /*# sourceMappingURL=style.css.map */

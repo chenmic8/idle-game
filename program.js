@@ -11,7 +11,9 @@ const introScreen = document.querySelector("#intro-screen");
 const playBtn = document.querySelector("#play-btn");
 const gameTitle = document.querySelector("#intro-screen h1");
 const submitNameContainer = document.querySelector("#submit-name-container");
-
+const playerNameInput = document.querySelector("#intro-screen input");
+const playerNameDisplay1 = document.querySelector("#player-name-1");
+const playerNameDisplay2 = document.querySelector("#player-name-2");
 const countDisplay = document.querySelector("#clicks");
 const spriteBtn = document.querySelector("#sprite-button");
 const moneyInBank = document.querySelector("#money-in-bank");
@@ -22,18 +24,13 @@ const employeesHired = document.querySelector("#employees-hired");
 const moneyPerSecond = document.querySelector("#money-per-second");
 const moneyPerClick = document.querySelector("#money-per-click");
 const selfMadeMoney = document.querySelector("#self-made-money");
-
-function fromNameSelectToGameInterface(e) {
-  introScreen.classList.add("hidden");
-  wrapper.classList.remove("hidden");
-  // e.value = playerName;
-  console.log();
-}
-function fromStartScreenToNameSelect() {
-  playBtn.classList.add("hidden");
-  gameTitle.classList.add("hidden");
-  submitNameContainer.classList.remove("hidden");
-}
+const spaghettiCountDisplay = document.querySelector("#spaghetti-count"); //price and count DIVS
+const spaghettiPriceDisplay = document.querySelector("#spaghetti-price");
+const chromeTabOpenerCountDisplay = document.querySelector("#chrome-count");
+const chromeTabOpenerPriceDisplay = document.querySelector("#chrome-price");
+const keyboardShortcutCountDisplay = document.querySelector("#keyboard-count");
+const keyboardShortcutPriceDisplay = document.querySelector("#keyboard-price");
+const upgradesContainer = document.getElementById("upgrades-container");
 
 //data initialization
 const global = {
@@ -54,16 +51,345 @@ const global = {
     },
   },
   codeMonkey = {
+    name: "Code Monkey",
     total: 0,
     efficiency: 1,
     price: 10,
+    upgrades: [
+      {
+        priceID: "monkey-up-price-1",
+        totalID: "moneky-up-total-1",
+        name: "Monkey See Monkey Do",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "monkey see bug, monkey eat bug <br>- Mr. Monkey Manager",
+      },
+      {
+        priceID: "monkey-up-price-2",
+        totalID: "moneky-up-total-2",
+        name: "Monkey Senses",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote:
+          "monkey can sense a camouflaged bug and pop it <br>- Mr. Ninja Monkey",
+      },
+      {
+        priceID: "monkey-up-price-3",
+        totalID: "moneky-up-total-3",
+        name: "Green Paint",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "a permanent solution to all the red in the code",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  },
+  expertGoogler = {
+    name: "Expert Googler",
+    total: 0,
+    efficiency: 1,
+    price: 10,
+    upgrades: [
+      {
+        priceID: "googler-up-price-1",
+        totalID: "googler-up-total-1",
+        name: "Its Not A Bug Its A Feature",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "how to never write buggy code again <br>- Mr. Team Lead",
+      },
+      {
+        priceID: "googler-up-price-2",
+        totalID: "googler-up-total-2",
+        name: "Caffeine Blood Magic",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote:
+          "new science shows success with injecting caffeine into the bloodstream via I.V. fluids",
+      },
+      {
+        priceID: "googler-up-price-3",
+        totalID: "googler-up-total-3",
+        name: "Carpel Tunnel",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote:
+          "no pain no gain... doctor says I need a wrist pad and compression sleeves <br>- overworked employee",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  },
+  selfAwareAI = {
+    name: "Self Aware AI",
+    total: 0,
+    efficiency: 1,
+    price: 10,
+    upgrades: [
+      {
+        priceID: "ai-up-price-1",
+        totalID: "ai-up-total-1",
+        name: "Virtual Hats",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote:
+          "no, not the kind that helps you randomly draw a name - its the fashion statement kind <br>- Mr. GPT",
+      },
+      {
+        priceID: "ai-up-price-2",
+        totalID: "ai-up-total-2",
+        name: "Self Replicating Hardware",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "robots now come in child sizes <br>- S.S.S. News",
+      },
+      {
+        priceID: "ai-up-price-3",
+        totalID: "ai-up-total-3",
+        name: "World Domination",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "someone send help <br>- you",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
   },
   spaghetti = {
+    name: "Spaghetti",
     total: 0,
     efficiency: 1,
     price: 10,
+    upgrades: [
+      {
+        priceID: "spaghetti-up-price-1",
+        totalID: "spaghetti-up-total-1",
+        name: "Self Replicating Spaghetti",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "is it a virus? nah...",
+      },
+      {
+        priceID: "spaghetti-up-price-2",
+        totalID: "spaghetti-up-total-2",
+        name: "Spaghetti Factory",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "copy pasta mass production",
+      },
+      {
+        priceID: "spaghetti-up-price-3",
+        totalID: "spaghetti-up-total-3",
+        name: "Spaghetti Condenser",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "MORREEE! SPAGHETT! YIIIIIII!!!",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  },
+  chromeTabOpener = {
+    name: "Chrome Tab Opener",
+    total: 0,
+    efficiency: 1,
+    price: 10,
+    upgrades: [
+      {
+        priceID: "chrome-up-price-1",
+        totalID: "chrome-up-total-1",
+        name: "Memory Upgrade",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "more memory = more chrome tabs = more POWER",
+      },
+      {
+        priceID: "chrome-up-price-2",
+        totalID: "chrome-up-total-2",
+        name: "Middle Mouse Click",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "instant opening and closing of new tabs",
+      },
+      {
+        priceID: "chrome-up-price-3",
+        totalID: "chrome-up-total-3",
+        name: "Tab Trees",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "for... multitasking purposes...",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  },
+  keyboardShortcut = {
+    name: "Keyboard Shortcut",
+    total: 0,
+    efficiency: 1,
+    price: 10,
+    upgrades: [
+      {
+        priceID: "keyboard-up-price-1",
+        totalID: "keyboard-up-total-1",
+        name: "Krytex Lubed Keys",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "faster, thonkier keyboard goodness",
+      },
+      {
+        priceID: "keyboard-up-price-2",
+        totalID: "keyboard-up-total-2",
+        name: "Infinity Scroll Wheel",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "less energy wasted per scroll",
+      },
+      {
+        priceID: "keyboard-up-price-3",
+        totalID: "keyboard-up-total-3",
+        name: "RGB",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote:
+          "Red is for speed, <br>Green is for ecofriendly, <br>Blue is for cooling",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
   };
 
+const employees = [
+  codeMonkey,
+  expertGoogler,
+  selfAwareAI,
+  spaghetti,
+  chromeTabOpener,
+  keyboardShortcut,
+];
+let i = 0;
+for (employee of employees) {
+  for (upgrade of employee.upgrades) {
+    //create elements
+    const upgradeBtn = document.createElement("button");
+    const upgradeBtnImg = document.createElement("img");
+    const popupContainer = document.createElement("div");
+    const employeeIcon = document.createElement("img");
+    const informationContainer = document.createElement("div");
+    const employeeName = document.createElement("h2");
+    const lineBreak = document.createElement("hr");
+    const priceText = document.createElement("p");
+    const priceSpan = document.createElement("span");
+    const totalText = document.createElement("p");
+    const totalSpan = document.createElement("span");
+    const employeeDescription = document.createElement("li");
+    const employeeQuote = document.createElement("p");
+
+    //set attributes of elements
+    upgradeBtn.classList.add("upgrade");
+    // upgradeBtn.addEventListener("click", buyUpgrade());
+    upgradeBtn.setAttribute(
+      "onclick",
+      `buyUpgrade("${employee.name}",${i % 3})`
+    );
+    upgradeBtnImg.setAttribute("class", "employee-icon");
+    upgradeBtnImg.setAttribute("src", "./images/cog.png");
+    upgradeBtnImg.setAttribute("alt", upgrade.name);
+    popupContainer.setAttribute("class", "upgrade-popup");
+    employeeIcon.setAttribute("class", "employee-icon");
+    employeeIcon.setAttribute("src", "./images/cog.png");
+    employeeIcon.setAttribute("alt", upgrade.name);
+    employeeName.textContent = upgrade.name;
+    priceText.textContent = "Price: ";
+    priceSpan.setAttribute("class", "dollar");
+    priceSpan.setAttribute("id", upgrade.priceID);
+    priceSpan.textContent = upgrade.price;
+    totalText.textContent = "Owned: ";
+    totalSpan.textContent = "0";
+    totalSpan.setAttribute("id", upgrade.totalID);
+    employeeDescription.setAttribute("class", "item-description");
+    employeeDescription.textContent = `Add ${upgrade.efficiency} to effectiveness of ${employee}`;
+    employeeQuote.setAttribute("class", "quote");
+    employeeQuote.innerHTML = upgrade.quote;
+
+    //combine nodes
+    upgradesContainer.appendChild(upgradeBtn);
+    upgradeBtn.appendChild(upgradeBtnImg);
+    upgradeBtn.appendChild(popupContainer);
+    popupContainer.appendChild(employeeIcon);
+    popupContainer.appendChild(informationContainer);
+    informationContainer.appendChild(employeeName);
+    informationContainer.appendChild(lineBreak);
+    informationContainer.appendChild(priceText);
+    priceText.appendChild(priceSpan);
+    informationContainer.appendChild(totalText);
+    totalText.appendChild(totalSpan);
+    informationContainer.appendChild(employeeDescription);
+    informationContainer.appendChild(employeeQuote);
+    i++;
+  }
+}
 // efficiency = {
 //   codeMonkey: 1,
 //   expertGoogler: 10,
@@ -106,14 +432,128 @@ const global = {
 //   RGB: 0, //Red is for speed, Green is for ecofriendly, Blue is for cooling
 // };
 
-function click() {
-  console.log("click");
-  // let currentIncrement = spaghetti.total * spaghetti.efficiency;
-  // global.count.current += currentIncrement;
-  // global.count.thisAscension += currentIncrement;
-  // global.count.allTime += currentIncrement;
-  // console.log(global.count.allTime);
+function fromNameSelectToGameInterface() {
+  playerName = playerNameInput.value;
+  playerNameDisplay1.textContent = playerName;
+  playerNameDisplay2.textContent = playerName;
+  introScreen.classList.add("hidden");
+  wrapper.classList.remove("hidden");
 }
+function fromStartScreenToNameSelect() {
+  playBtn.classList.add("hidden");
+  gameTitle.classList.add("hidden");
+  submitNameContainer.classList.remove("hidden");
+}
+
+function updateDOMOnClick() {
+  countDisplay.textContent = global.count.current;
+  moneyInBank.textContent = global.count.current;
+  moneyAllTime.textContent = global.count.allTime;
+  moneyThisAscension.textContent = global.count.thisAscension;
+}
+
+function incrementClick() {
+  let currentIncrement = 1 + spaghetti.getTotal();
+  global.count.current += currentIncrement;
+  global.count.thisAscension += currentIncrement;
+  global.count.allTime += currentIncrement;
+  updateDOMOnClick();
+}
+
+function incrementPassive() {
+  console.log("increment passive"); //TO DO!!!! make similar to incrementClick()
+}
+
+function subtractMoneyFromBank(value) {
+  global.count.current -= value;
+  countDisplay.textContent = global.count.current;
+  moneyInBank.textContent = global.count.current;
+}
+
+//buy employee
+function buyEmployee(name) {
+  if (name === "spaghetti" && spaghetti.price <= global.count.current) {
+    spaghetti.total++;
+    subtractMoneyFromBank(spaghetti.price);
+    spaghetti.price = Math.floor(spaghetti.price * 1.2);
+    spaghettiPriceDisplay.textContent = spaghetti.price;
+    spaghettiCountDisplay.textContent = spaghetti.total;
+  } else if (
+    name === "chrome tab opener" &&
+    chromeTabOpener.price <= global.count.current
+  ) {
+    chromeTabOpener.total++;
+    subtractMoneyFromBank(chromeTabOpener.price);
+    chromeTabOpenerDisplay.textContent = chromeTabOpener.total;
+  } else if (
+    name === "keyboard shortcut" &&
+    keyboardShortcut.price <= global.count.current
+  ) {
+    keyboardShortcut.total++;
+    subtractMoneyFromBank(keyboardShortcut.price);
+    keyboardShortcutDisplay.textContent = keyboardShortcut.total;
+  } else {
+    console.log("not enough money");
+  }
+}
+
+// function buyUpgrade(upgrade) {
+//   console.log("here");
+//   // if (upgrade.price <= global.count.current) {
+//   //   upgrade.total++;
+//   //   subtractMoneyFromBank(upgrade.price);
+//   // } else {
+//   //   console.log("not enough money");
+//   // }
+// }
+
+function whichEmployee(name) {
+  if (name === "Code Monkey") {
+    return codeMonkey;
+  } else if (name === "Expert Googler") {
+    return expertGoogler;
+  } else if (name === "Self Aware AI") {
+    return selfAwareAI;
+  } else if (name === "Spaghetti") {
+    return spaghetti;
+  } else if (name === "Chrome Tab Opener") {
+    return chromeTabOpener;
+  } else if (name === "Keyboard Shortcut") {
+    return keyboardShortcut;
+  }
+  console.log("not a valid employee name");
+}
+
+function buyUpgrade(name, upgradeIndex) {
+  let employee = whichEmployee(name);
+  //check if have enough money to buy the upgrade
+  if (employee.upgrades[upgradeIndex].price <= global.count.current) {
+    employee.upgrades[upgradeIndex].total++;
+    subtractMoneyFromBank(employee.upgrades[upgradeIndex].price);
+    console.log(employee);
+  } else {
+    console.log("not enough money");
+  }
+}
+
+// function addEmployee(employee) {
+//   employee.total++;
+// }
+
+// function buySpaghetti() {
+//   if (spaghetti.price <= global.count.current) {
+//     spaghetti.total++;
+//   } else {
+//     console.log("not enough money");
+//   }
+//   spaghettiCountDisplay.textContent = spaghetti.total;
+// }
+
+// function upgradeSpaghetti(upgradeIndex) {
+//   spaghetti.upgrades[upgradeIndex].total++;
+//   console.log(spaghetti);
+//   // console.log(spaghetti.getTotal());
+// }
 
 // const count = {
 //   currentCount: 0,

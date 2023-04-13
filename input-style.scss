@@ -50,6 +50,7 @@ body {
 
 h1 {
   @include fancy-pink-font(4rem);
+  text-align: center;
 }
 
 button {
@@ -172,6 +173,7 @@ button {
 .upgrades-container {
   display: grid;
   grid-template: 1fr 1fr 1fr 1fr 1fr 1fr/1fr 1fr 1fr;
+  // position: relative;
 }
 .separator {
   width: 100%;
@@ -198,4 +200,41 @@ button {
 }
 #clicks {
   font-size: 2rem;
+}
+
+.upgrade {
+  position: relative;
+  &:hover > .upgrade-popup {
+    visibility: visible;
+  }
+
+  .upgrade-popup {
+    position: absolute;
+    z-index: 9;
+    top: -10%;
+    left: 110%;
+    background-color: #a6bbce;
+    border: 1px solid black;
+    display: grid;
+    grid-template: 1fr/ 1fr 5fr;
+    padding: 0.5rem;
+    width: 20vh;
+    visibility: hidden;
+    div {
+      text-align: left;
+    }
+  }
+}
+// .popup:hover {
+//   display: block;
+// }
+.quote {
+  font-style: italic;
+  padding: 1rem 0;
+}
+li {
+  list-style-position: outside;
+}
+.item-description {
+  padding: 0.5rem 0;
 }
