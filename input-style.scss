@@ -163,7 +163,7 @@ button {
   &:hover {
     cursor: pointer;
   }
-  div {
+  .employee-information-container {
     @include flex-center-column;
   }
 }
@@ -223,6 +223,32 @@ button {
     div {
       text-align: left;
     }
+  }
+}
+
+.employee {
+  position: relative;
+  &:hover > .employee-popup {
+    visibility: visible;
+  }
+  .employee-popup {
+    position: absolute;
+    z-index: 9;
+    top: 0%;
+    right: 100%;
+    background-color: #a6bbce;
+    border: 1px solid black;
+    display: grid !important;
+    grid-template: 1fr/ 1fr 5fr;
+    padding: 0.5rem;
+    width: 20vh;
+    visibility: hidden;
+    div {
+      text-align: left;
+    }
+  }
+  ul{
+    padding: 1rem 0rem;
   }
 }
 // .popup:hover {

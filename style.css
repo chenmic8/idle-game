@@ -160,7 +160,7 @@ button {
 .employee-container:hover {
   cursor: pointer;
 }
-.employee-container div {
+.employee-container .employee-information-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -237,6 +237,32 @@ button {
 }
 .upgrade .upgrade-popup div {
   text-align: left;
+}
+
+.employee {
+  position: relative;
+}
+.employee:hover > .employee-popup {
+  visibility: visible;
+}
+.employee .employee-popup {
+  position: absolute;
+  z-index: 9;
+  top: 0%;
+  right: 100%;
+  background-color: #a6bbce;
+  border: 1px solid black;
+  display: grid !important;
+  grid-template: 1fr/1fr 5fr;
+  padding: 0.5rem;
+  width: 20vh;
+  visibility: hidden;
+}
+.employee .employee-popup div {
+  text-align: left;
+}
+.employee ul {
+  padding: 1rem 0rem;
 }
 
 .quote {

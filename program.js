@@ -1,5 +1,6 @@
 //Declare variables
 let playerName;
+let intervalId;
 // let employees = [];
 // let clickUpgrades = [];
 // let intervalId;
@@ -31,6 +32,7 @@ const chromeTabOpenerPriceDisplay = document.querySelector("#chrome-price");
 const keyboardShortcutCountDisplay = document.querySelector("#keyboard-count");
 const keyboardShortcutPriceDisplay = document.querySelector("#keyboard-price");
 const upgradesContainer = document.getElementById("upgrades-container");
+const employeesContainer = document.querySelector("#employees-container");
 
 //data initialization
 const global = {
@@ -51,6 +53,10 @@ const global = {
     },
   },
   codeMonkey = {
+    priceID: "monkey-price",
+    totalID: "monkey-total",
+    popupPriceID: "popup-monkey-price",
+    popupTotalID: "popup-monkey-total",
     name: "Code Monkey",
     total: 0,
     efficiency: 1,
@@ -96,10 +102,14 @@ const global = {
     },
   },
   expertGoogler = {
+    priceID: "googler-price",
+    totalID: "googler-total",
+    popupPriceID: "popup-googler-price",
+    popupTotalID: "popup-googler-total",
     name: "Expert Googler",
     total: 0,
-    efficiency: 1,
-    price: 10,
+    efficiency: 10,
+    price: 100,
     upgrades: [
       {
         priceID: "googler-up-price-1",
@@ -142,10 +152,14 @@ const global = {
     },
   },
   selfAwareAI = {
+    priceID: "ai-price",
+    totalID: "ai-total",
+    popupPriceID: "popup-ai-price",
+    popupTotalID: "popup-ai-total",
     name: "Self Aware AI",
     total: 0,
-    efficiency: 1,
-    price: 10,
+    efficiency: 100,
+    price: 1000,
     upgrades: [
       {
         priceID: "ai-up-price-1",
@@ -187,6 +201,10 @@ const global = {
     },
   },
   spaghetti = {
+    priceID: "spaghetti-price",
+    totalID: "spaghetti-total",
+    popupPriceID: "popup-spaghetti-price",
+    popupTotalID: "popup-spaghetti-total",
     name: "Spaghetti",
     total: 0,
     efficiency: 1,
@@ -231,10 +249,14 @@ const global = {
     },
   },
   chromeTabOpener = {
+    priceID: "chrome-price",
+    totalID: "chrome-total",
+    popupPriceID: "popup-chrome-price",
+    popupTotalID: "popup-chrome-total",
     name: "Chrome Tab Opener",
     total: 0,
-    efficiency: 1,
-    price: 10,
+    efficiency: 10,
+    price: 100,
     upgrades: [
       {
         priceID: "chrome-up-price-1",
@@ -275,10 +297,14 @@ const global = {
     },
   },
   keyboardShortcut = {
+    priceID: "keyboard-price",
+    totalID: "keyboard-total",
+    popupPriceID: "popup-keyboard-price",
+    popupTotalID: "popup-keyboard-total",
     name: "Keyboard Shortcut",
     total: 0,
-    efficiency: 1,
-    price: 10,
+    efficiency: 100,
+    price: 1000,
     upgrades: [
       {
         priceID: "keyboard-up-price-1",
@@ -328,70 +354,227 @@ const employees = [
   chromeTabOpener,
   keyboardShortcut,
 ];
+const passiveEmployees = [codeMonkey, expertGoogler, selfAwareAI];
+const activeEmployees = [spaghetti, chromeTabOpener, keyboardShortcut];
 
 //dynamically add upgrade buttons
-let i = 0;
-for (employee of employees) {
-  for (upgrade of employee.upgrades) {
-    //create elements
-    const upgradeBtn = document.createElement("button");
-    const upgradeBtnImg = document.createElement("img");
-    const popupContainer = document.createElement("div");
-    const employeeIcon = document.createElement("img");
-    const informationContainer = document.createElement("div");
-    const employeeName = document.createElement("h2");
-    const lineBreak = document.createElement("hr");
-    const priceText = document.createElement("p");
-    const priceSpan = document.createElement("span");
-    const totalText = document.createElement("p");
-    const totalSpan = document.createElement("span");
-    const employeeDescription = document.createElement("li");
-    const employeeQuote = document.createElement("p");
+function renderUpgradeButtons() {
+  let i = 0;
+  for (employee of employees) {
+    for (upgrade of employee.upgrades) {
+      //create elements
+      const upgradeBtn = document.createElement("button");
+      const upgradeBtnImg = document.createElement("img");
+      const popupContainer = document.createElement("div");
+      const employeeIcon = document.createElement("img");
+      const informationContainer = document.createElement("div");
+      const employeeName = document.createElement("h2");
+      const lineBreak = document.createElement("hr");
+      const priceText = document.createElement("p");
+      const priceSpan = document.createElement("span");
+      const totalText = document.createElement("p");
+      const totalSpan = document.createElement("span");
+      const employeeDescription = document.createElement("li");
+      const employeeQuote = document.createElement("p");
 
-    //set attributes of elements
-    upgradeBtn.classList.add("upgrade");
-    // upgradeBtn.addEventListener("click", buyUpgrade());
-    upgradeBtn.setAttribute(
-      "onclick",
-      `buyUpgrade("${employee.name}",${i % 3})`
-    );
-    upgradeBtnImg.setAttribute("class", "employee-icon");
-    upgradeBtnImg.setAttribute("src", "./images/cog.png");
-    upgradeBtnImg.setAttribute("alt", upgrade.name);
-    popupContainer.setAttribute("class", "upgrade-popup");
-    employeeIcon.setAttribute("class", "employee-icon");
-    employeeIcon.setAttribute("src", "./images/cog.png");
-    employeeIcon.setAttribute("alt", upgrade.name);
-    employeeName.textContent = upgrade.name;
-    priceText.textContent = "Price: ";
-    priceSpan.setAttribute("class", "dollar");
-    priceSpan.setAttribute("id", upgrade.priceID);
-    priceSpan.textContent = upgrade.price;
-    totalText.textContent = "Owned: ";
-    totalSpan.textContent = "0";
-    totalSpan.setAttribute("id", upgrade.totalID);
-    employeeDescription.setAttribute("class", "item-description");
-    employeeDescription.textContent = `Add ${upgrade.efficiency} to effectiveness of ${employee}`;
-    employeeQuote.setAttribute("class", "quote");
-    employeeQuote.innerHTML = upgrade.quote;
+      //set attributes of elements
+      upgradeBtn.classList.add("upgrade");
+      upgradeBtn.setAttribute(
+        "onclick",
+        `buyUpgrade("${employee.name}",${i % 3})`
+      );
+      upgradeBtnImg.setAttribute("class", "employee-icon");
+      upgradeBtnImg.setAttribute("src", "./images/cog.png");
+      upgradeBtnImg.setAttribute("alt", upgrade.name);
+      popupContainer.setAttribute("class", "upgrade-popup");
+      employeeIcon.setAttribute("class", "employee-icon");
+      employeeIcon.setAttribute("src", "./images/cog.png");
+      employeeIcon.setAttribute("alt", upgrade.name);
+      employeeName.textContent = upgrade.name;
+      priceText.textContent = "Price: ";
+      priceSpan.setAttribute("class", "dollar");
+      priceSpan.setAttribute("id", upgrade.priceID);
+      priceSpan.textContent = upgrade.price;
+      totalText.textContent = "Owned: ";
+      totalSpan.textContent = "0";
+      totalSpan.setAttribute("id", upgrade.totalID);
+      employeeDescription.setAttribute("class", "item-description");
+      employeeDescription.textContent = `Add ${upgrade.efficiency} to effectiveness of ${employee.name}`;
+      employeeQuote.setAttribute("class", "quote");
+      employeeQuote.innerHTML = upgrade.quote;
 
-    //combine nodes
-    upgradesContainer.appendChild(upgradeBtn);
-    upgradeBtn.appendChild(upgradeBtnImg);
-    upgradeBtn.appendChild(popupContainer);
-    popupContainer.appendChild(employeeIcon);
-    popupContainer.appendChild(informationContainer);
-    informationContainer.appendChild(employeeName);
-    informationContainer.appendChild(lineBreak);
-    informationContainer.appendChild(priceText);
-    priceText.appendChild(priceSpan);
-    informationContainer.appendChild(totalText);
-    totalText.appendChild(totalSpan);
-    informationContainer.appendChild(employeeDescription);
-    informationContainer.appendChild(employeeQuote);
-    i++;
+      //combine nodes
+      upgradesContainer.appendChild(upgradeBtn);
+      upgradeBtn.appendChild(upgradeBtnImg);
+      upgradeBtn.appendChild(popupContainer);
+      popupContainer.appendChild(employeeIcon);
+      popupContainer.appendChild(informationContainer);
+      informationContainer.appendChild(employeeName);
+      informationContainer.appendChild(lineBreak);
+      informationContainer.appendChild(priceText);
+      priceText.appendChild(priceSpan);
+      informationContainer.appendChild(totalText);
+      totalText.appendChild(totalSpan);
+      informationContainer.appendChild(employeeDescription);
+      informationContainer.appendChild(employeeQuote);
+      i++;
+    }
   }
 }
+function renderPassiveEmployees() {
+  for (employee of passiveEmployees) {
+    //create elements
+    const employeeContainer = document.createElement("div");
+    const employeePopupContainer = document.createElement("div");
+    const popupImg = document.createElement("img");
+    const popupInformationContainer = document.createElement("div");
+    const popupemployeeName = document.createElement("h2");
+    const lineBreak = document.createElement("hr");
+    const popupPriceText = document.createElement("p");
+    const popupPriceSpan = document.createElement("span");
+    const popupTotalText = document.createElement("p");
+    const popupTotalSpan = document.createElement("span");
+    const unorderedList = document.createElement("ul");
+    const statistic1 = document.createElement("li");
+    const statistic2 = document.createElement("li");
+    const employeeImg = document.createElement("img");
+    const employeeInformationContainer = document.createElement("div");
+    const employeeName = document.createElement("p");
+    const priceSpan = document.createElement("span");
+    const totalSpan = document.createElement("span");
+
+    //set attributes of elements
+    employeeContainer.setAttribute("class", "employee-container employee");
+    employeeContainer.setAttribute("onclick", `buyEmployee("${employee.name}")`);
+    employeePopupContainer.setAttribute("class", "employee-popup");
+    popupImg.setAttribute("class", "employee-icon");
+    popupImg.setAttribute("src", "./images/cog.png");
+    popupImg.setAttribute("alt", employee.name);
+    popupemployeeName.textContent = employee.name;
+    popupPriceText.textContent = "Price: ";
+    popupPriceSpan.textContent = employee.price;
+    popupPriceSpan.setAttribute("id", employee.popupPriceID);
+    popupPriceSpan.setAttribute("class", "dollar");
+    popupTotalText.textContent = "Owned: ";
+    popupTotalSpan.textContent = "0";
+    popupTotalSpan.setAttribute("id", employee.popupTotalID);
+    statistic1.textContent = `Each ${employee.name} produces ${employee.efficiency} per second`;
+    statistic2.textContent = `${employee.total} ${
+      employee.name
+    }s producing ${employee.getTotal()} per second`;
+    employeeImg.setAttribute("class", "employee-icon");
+    employeeImg.setAttribute("src", "./images/cog.png"); //WHEN ART DONE: this should be from a value in data objects
+    employeeImg.setAttribute("alt", employee.name);
+    employeeInformationContainer.setAttribute(
+      "class",
+      "employee-information-container"
+    );
+    employeeName.textContent = employee.name;
+    priceSpan.textContent = employee.price;
+    priceSpan.setAttribute("id", employee.priceID);
+    priceSpan.setAttribute("class", "dollar");
+    totalSpan.textContent = "0";
+    totalSpan.setAttribute("id", employee.totalID);
+
+    //combine nodes
+    employeesContainer.appendChild(employeeContainer);
+    employeeContainer.appendChild(employeePopupContainer);
+    employeePopupContainer.appendChild(popupImg);
+    employeePopupContainer.appendChild(popupInformationContainer);
+    popupInformationContainer.appendChild(popupemployeeName);
+    popupInformationContainer.appendChild(lineBreak);
+    popupInformationContainer.appendChild(popupPriceText);
+    popupPriceText.appendChild(popupPriceSpan);
+    popupInformationContainer.appendChild(popupTotalText);
+    popupTotalText.appendChild(popupTotalSpan);
+    popupInformationContainer.appendChild(unorderedList);
+    unorderedList.appendChild(statistic1);
+    unorderedList.appendChild(statistic2);
+    employeeContainer.appendChild(employeeImg);
+    employeeContainer.appendChild(employeeInformationContainer);
+    employeeInformationContainer.appendChild(employeeName);
+    employeeInformationContainer.appendChild(priceSpan);
+    employeeContainer.appendChild(totalSpan);
+  }
+}
+function renderActiveEmployees() {
+  for (employee of activeEmployees) {
+    //create elements
+    const employeeContainer = document.createElement("div");
+    const employeePopupContainer = document.createElement("div");
+    const popupImg = document.createElement("img");
+    const popupInformationContainer = document.createElement("div");
+    const popupemployeeName = document.createElement("h2");
+    const lineBreak = document.createElement("hr");
+    const popupPriceText = document.createElement("p");
+    const popupPriceSpan = document.createElement("span");
+    const popupTotalText = document.createElement("p");
+    const popupTotalSpan = document.createElement("span");
+    const unorderedList = document.createElement("ul");
+    const statistic1 = document.createElement("li");
+    const statistic2 = document.createElement("li");
+    const employeeImg = document.createElement("img");
+    const employeeInformationContainer = document.createElement("div");
+    const employeeName = document.createElement("p");
+    const priceSpan = document.createElement("span");
+    const totalSpan = document.createElement("span");
+
+    //set attributes of elements
+    employeeContainer.setAttribute("class", "employee-container employee");
+    employeeContainer.setAttribute("onclick", `buyEmployee("${employee.name}")`);
+    employeePopupContainer.setAttribute("class", "employee-popup");
+    popupImg.setAttribute("class", "employee-icon");
+    popupImg.setAttribute("src", "./images/cog.png");
+    popupImg.setAttribute("alt", employee.name);
+    popupemployeeName.textContent = employee.name;
+    popupPriceText.textContent = "Price: ";
+    popupPriceSpan.textContent = employee.price;
+    popupPriceSpan.setAttribute("id", employee.popupPriceID);
+    popupPriceSpan.setAttribute("class", "dollar");
+    popupTotalText.textContent = "Owned: ";
+    popupTotalSpan.textContent = "0";
+    popupTotalSpan.setAttribute("id", employee.popupTotalID);
+    statistic1.textContent = `Each ${employee.name} produces ${employee.efficiency} per click`;
+    statistic2.textContent = `${employee.total} ${
+      employee.name
+    }s producing ${employee.getTotal()} per click`;
+    employeeImg.setAttribute("class", "employee-icon");
+    employeeImg.setAttribute("src", "./images/cog.png"); //WHEN ART DONE: this should be from a value in data objects
+    employeeImg.setAttribute("alt", employee.name);
+    employeeInformationContainer.setAttribute(
+      "class",
+      "employee-information-container"
+    );
+    employeeName.textContent = employee.name;
+    priceSpan.textContent = employee.price;
+    priceSpan.setAttribute("id", employee.priceID);
+    priceSpan.setAttribute("class", "dollar");
+    totalSpan.textContent = "0";
+    totalSpan.setAttribute("id", employee.totalID);
+
+    //combine nodes
+    employeesContainer.appendChild(employeeContainer);
+    employeeContainer.appendChild(employeePopupContainer);
+    employeePopupContainer.appendChild(popupImg);
+    employeePopupContainer.appendChild(popupInformationContainer);
+    popupInformationContainer.appendChild(popupemployeeName);
+    popupInformationContainer.appendChild(lineBreak);
+    popupInformationContainer.appendChild(popupPriceText);
+    popupPriceText.appendChild(popupPriceSpan);
+    popupInformationContainer.appendChild(popupTotalText);
+    popupTotalText.appendChild(popupTotalSpan);
+    popupInformationContainer.appendChild(unorderedList);
+    unorderedList.appendChild(statistic1);
+    unorderedList.appendChild(statistic2);
+    employeeContainer.appendChild(employeeImg);
+    employeeContainer.appendChild(employeeInformationContainer);
+    employeeInformationContainer.appendChild(employeeName);
+    employeeInformationContainer.appendChild(priceSpan);
+    employeeContainer.appendChild(totalSpan);
+  }
+}
+renderPassiveEmployees();
+renderActiveEmployees();
 // efficiency = {
 //   codeMonkey: 1,
 //   expertGoogler: 10,
@@ -453,18 +636,42 @@ function updateDOMOnClick() {
   moneyAllTime.textContent = global.count.allTime;
   moneyThisAscension.textContent = global.count.thisAscension;
 }
+function updateDOMOnInterval() {
+  countDisplay.textContent = global.count.current;
+  moneyInBank.textContent = global.count.current;
+  moneyAllTime.textContent = global.count.allTime;
+  moneyThisAscension.textContent = global.count.thisAscension;
+}
+
+function incrementAllGlobalCount(increment) {
+  global.count.current += increment;
+  global.count.thisAscension += increment;
+  global.count.allTime += increment;
+}
 
 function incrementClick() {
-  let currentIncrement = 1 + spaghetti.getTotal();
-  global.count.current += currentIncrement;
-  global.count.thisAscension += currentIncrement;
-  global.count.allTime += currentIncrement;
+  let increment =
+    1 +
+    spaghetti.getTotal() +
+    chromeTabOpener.getTotal() +
+    keyboardShortcut.getTotal();
+  incrementAllGlobalCount(increment);
   updateDOMOnClick();
 }
 
 function incrementPassive() {
   console.log("increment passive"); //TO DO!!!! make similar to incrementClick()
+  let increment =
+    codeMonkey.getTotal() + expertGoogler.getTotal() + selfAwareAI.getTotal();
+  incrementAllGlobalCount(increment);
+  updateDOMOnInterval();
 }
+function gameInterval() {
+  intervalId = setInterval(() => {
+    incrementPassive();
+  }, 1000);
+}
+gameInterval();
 
 function subtractMoneyFromBank(value) {
   global.count.current -= value;
@@ -474,26 +681,20 @@ function subtractMoneyFromBank(value) {
 
 //buy employee
 function buyEmployee(name) {
-  if (name === "spaghetti" && spaghetti.price <= global.count.current) {
-    spaghetti.total++;
-    subtractMoneyFromBank(spaghetti.price);
-    spaghetti.price = Math.floor(spaghetti.price * 1.2);
-    spaghettiPriceDisplay.textContent = spaghetti.price;
-    spaghettiCountDisplay.textContent = spaghetti.total;
-  } else if (
-    name === "chrome tab opener" &&
-    chromeTabOpener.price <= global.count.current
-  ) {
-    chromeTabOpener.total++;
-    subtractMoneyFromBank(chromeTabOpener.price);
-    chromeTabOpenerDisplay.textContent = chromeTabOpener.total;
-  } else if (
-    name === "keyboard shortcut" &&
-    keyboardShortcut.price <= global.count.current
-  ) {
-    keyboardShortcut.total++;
-    subtractMoneyFromBank(keyboardShortcut.price);
-    keyboardShortcutDisplay.textContent = keyboardShortcut.total;
+  console.log("here");
+  let employee = whichEmployee(name);
+  const popupPriceDisplay = document.getElementById(employee.popupPriceID);
+  const popupTotalDisplay = document.getElementById(employee.popupTotalID);
+  const priceDisplay = document.getElementById(employee.priceID);
+  const totalDisplay = document.getElementById(employee.totalID);
+  if (employee.price <= global.count.current) {
+    employee.total++;
+    subtractMoneyFromBank(employee.price);
+    employee.price = Math.floor(employee.price * 1.2);
+    popupPriceDisplay.textContent = employee.price;
+    popupTotalDisplay.textContent = employee.price;
+    priceDisplay.textContent = employee.total;
+    totalDisplay.textContent = employee.total;
   } else {
     console.log("not enough money");
   }
@@ -749,3 +950,5 @@ function buyUpgrade(name, upgradeIndex) {
 //   parent.appendChild(nameInput);
 //   parent.appendChild(nameSubmitBtn);
 // }
+
+renderUpgradeButtons();
