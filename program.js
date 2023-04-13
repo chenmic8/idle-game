@@ -30,6 +30,7 @@ const keyboardShortcutPriceDisplay = document.querySelector("#keyboard-price");
 const upgradesContainer = document.getElementById("upgrades-container");
 const employeesContainer = document.querySelector("#employees-container");
 const mainDisplayMoneyPerSecond = document.querySelector("#per-second");
+const healthBar = document.querySelector(".progress-bar-inner");
 
 //data initialization
 const global = {
@@ -39,7 +40,7 @@ const global = {
       current: 0,
       thisAscension: 0,
       allTime: 0,
-    },
+    }, //TO DO: CHECK IF ALL OF THE GLOBALS ARE NEEDED!!!!!!!!!!!!!!!!!!!!!!!!!!!
     passives: {
       perSecond: 0,
       total: 0,
@@ -534,12 +535,6 @@ function updateRightMonitorAndMainDisplay() {
   //total clicks to right monitor
   totalClicks.textContent = global.clicks;
 }
-// function updateDOMOnInterval() {
-//   countDisplay.textContent = global.count.current;
-//   moneyInBank.textContent = global.count.current;
-//   moneyAllTime.textContent = global.count.allTime;
-//   moneyThisAscension.textContent = global.count.thisAscension;
-// }
 
 function incrementAllGlobalCount(increment) {
   global.count.current += increment;
@@ -553,6 +548,7 @@ function incrementClick() {
     spaghetti.getTotal() +
     chromeTabOpener.getTotal() +
     keyboardShortcut.getTotal();
+  incrementHitPointBar(increment);
   incrementAllGlobalCount(increment);
   global.clicks++;
   updateRightMonitorAndMainDisplay();
@@ -641,16 +637,6 @@ function buyEmployee(name) {
   }
 }
 
-// function buyUpgrade(upgrade) {
-//   console.log("here");
-//   // if (upgrade.price <= global.count.current) {
-//   //   upgrade.total++;
-//   //   subtractMoneyFromBank(upgrade.price);
-//   // } else {
-//   //   console.log("not enough money");
-//   // }
-// }
-
 function updateUpgradePopup(upgrade) {
   const upgradePriceDisplay = document.getElementById(upgrade.priceID);
   const upgradeTotalDisplay = document.getElementById(upgrade.totalID);
@@ -664,12 +650,66 @@ function buyUpgrade(name, upgradeIndex) {
   if (upgrade.price <= global.count.current) {
     upgrade.total++;
     subtractMoneyFromBank(upgrade.price);
-    employee.price = Math.floor(employee.price * 1.2);
+    upgrade.price = Math.floor(upgrade.price * 1.2);
     updateEmployeePopup(employee);
     updateUpgradePopup(upgrade);
     console.log(employee);
   } else {
     console.log("not enough money");
+  }
+}
+
+const hitPointBarStats = {
+  hitPointTotal: 100,
+  hitPointCurrent: 0,
+  hitPointPercent: 0, //out of 100%, what percent is it at
+  reward: 10,
+  complete: false,
+};
+
+function sprintComplete() {
+  //show reward and update global money
+  healthBar.style.width = "100%";
+  incrementAllGlobalCount(hitPointBarStats.reward);
+  healthBar.textContent = `Earned: $${hitPointBarStats.reward}`;
+  setTimeout(() => {
+    console.log("sprint COMPLETE");
+    //reset healthbar dom
+    healthBar.textContent = "";
+    healthBar.style.width = 0+"%";
+    //reset hitpointbarstats
+    hitPointBarStats.hitPointPercent = 0;
+    hitPointBarStats.hitPointCurrent = 0;
+    //increase hitpoint hp
+    hitPointBarStats.hitPointTotal *= 10;
+    //raise hitpoint reward
+    hitPointBarStats.reward = Math.floor(hitPointBarStats.reward * 2.1);
+    hitPointBarStats.complete = false;
+  }, 5000);
+  console.log(hitPointBarStats);
+}
+
+function incrementHitPointBar(increment) {
+  hitPointBarStats.hitPointCurrent += increment;
+  if (
+    hitPointBarStats.hitPointCurrent >= hitPointBarStats.hitPointTotal &&
+    !hitPointBarStats.complete
+  ) {
+    console.log("hit the win conditional")
+    hitPointBarStats.complete = true;
+    sprintComplete();
+  } else if (
+    hitPointBarStats.hitPointCurrent >= hitPointBarStats.hitPointTotal
+  ) {
+    console.log("pause champ, u aint progressing the next spring rn");
+    return;
+  } else {
+    let percentIncrement = parseFloat(
+      (100 * (increment / hitPointBarStats.hitPointTotal)).toFixed(2)
+    );
+    console.log(percentIncrement);
+    hitPointBarStats.hitPointPercent += percentIncrement;
+    healthBar.style.width = hitPointBarStats.hitPointPercent + "%";
   }
 }
 

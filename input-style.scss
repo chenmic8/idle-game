@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Silkscreen&display=swap");
 
-$pink: rgb(190, 86, 131, 0.1);
+$pink: rgb(190, 86, 131, 0.2);
 $horizontal-monitor: url("./images/simple-monitor.png");
 $vertical-monitor: url("./images/simple-vertical-monitor.png");
 $background-image: url("./images/clear-background.png");
@@ -314,4 +314,14 @@ li {
 }
 .item-description {
   padding: 0.5rem 0;
+}
+.progress-bar-outer {
+  background-color: white;
+  height: 2rem;
+  width: 15vw;
+  .progress-bar-inner {
+    background-color: $pink;
+    height: 100%;
+    width: 00%;
+  }
 }

@@ -179,11 +179,11 @@ button {
 #top-right #player-info-container #player-profile #profile-picture {
   padding: 0.5rem 0.5rem 0 0.5rem;
   background-color: white;
-  border: 5px solid rgba(190, 86, 131, 0.1);
+  border: 5px solid rgba(190, 86, 131, 0.2);
   width: 5vh;
 }
 #top-right #player-info-container #player-profile #player-name-1 {
-  background-color: rgba(190, 86, 131, 0.1);
+  background-color: rgba(190, 86, 131, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -338,6 +338,17 @@ li {
 
 .item-description {
   padding: 0.5rem 0;
+}
+
+.progress-bar-outer {
+  background-color: white;
+  height: 2rem;
+  width: 15vw;
+}
+.progress-bar-outer .progress-bar-inner {
+  background-color: rgba(190, 86, 131, 0.2);
+  height: 100%;
+  width: 0%;
 }
 
 /*# sourceMappingURL=style.css.map */
