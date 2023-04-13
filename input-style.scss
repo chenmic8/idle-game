@@ -30,6 +30,7 @@ $body-color: linear-gradient(#cf9a9a, pink);
   margin: 0;
   font-family: "Silkscreen", cursive;
   font-size: 10px;
+  user-select: none;
 }
 
 body {
@@ -38,7 +39,9 @@ body {
   height: 100vh;
   width: 100vw;
 }
-
+audio {
+  display: none;
+}
 #intro-screen {
   @include flex-center-column;
   background-image: $background-image;
@@ -50,6 +53,11 @@ body {
 
 h1 {
   @include fancy-pink-font(4rem);
+  text-align: center;
+}
+
+#player-name-2 {
+  font-size: 1.5rem;
   text-align: center;
 }
 
@@ -127,9 +135,53 @@ button {
   grid-area: 1/3/3/4;
   background-size: cover;
   display: grid;
-  grid-template: 1fr 1fr / 1fr 3fr;
-  .employee-icon {
-    width: 5vh;
+  grid-template: 1fr 5fr/ 1fr 3fr;
+  // .employee-icon {
+  //   width: 5vh;
+  // }
+  :first-child {
+    grid-area: 1/1/2/3;
+    h2 {
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 1rem 0px 1rem 0px;
+      @include flex-center-column;
+      span:after {
+        content: "'s";
+      }
+    }
+  }
+  h3 {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 1rem 0px 0.5rem;
+  }
+  button {
+    padding: 0.2rem;
+    margin: 1rem 0px;
+  }
+  .column-center-container {
+    @include flex-center-column;
+    padding-bottom: 2rem;
+  }
+  #player-info-container {
+    @include flex-center-column;
+    #player-profile {
+      @include flex-center-column;
+      background-color: white;
+      #profile-picture {
+        padding: 0.5rem 0.5rem 0 0.5rem;
+        background-color: white;
+        border: 5px solid $pink;
+        width: 5vh;
+      }
+      #player-name-1 {
+        background-color: $pink;
+        @include flex-center-column;
+        width: 100%;
+        padding: 0.1rem 0px 0.3rem;
+      }
+    }
   }
 }
 
@@ -150,6 +202,9 @@ button {
   background-position: center bottom;
   height: 10vh;
   width: 50vw;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .employees-container {
@@ -181,10 +236,6 @@ button {
 
 .dollar::before {
   content: "$";
-}
-
-#player-info-container {
-  @include flex-center-column;
 }
 
 #count-display-container {
@@ -247,7 +298,7 @@ button {
       text-align: left;
     }
   }
-  ul{
+  ul {
     padding: 1rem 0rem;
   }
 }

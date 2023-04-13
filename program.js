@@ -1,10 +1,6 @@
 //Declare variables
 let playerName;
 let intervalId;
-// let employees = [];
-// let clickUpgrades = [];
-// let intervalId;
-// let codeMonkeyPerSecond = 0;
 
 //DOM selectors
 const wrapper = document.querySelector(".wrapper");
@@ -24,7 +20,7 @@ const runTime = document.querySelector("#run-time");
 const employeesHired = document.querySelector("#employees-hired");
 const moneyPerSecond = document.querySelector("#money-per-second");
 const moneyPerClick = document.querySelector("#money-per-click");
-const selfMadeMoney = document.querySelector("#self-made-money");
+const totalClicks = document.querySelector("#self-made-money");
 const spaghettiCountDisplay = document.querySelector("#spaghetti-count"); //price and count DIVS
 const spaghettiPriceDisplay = document.querySelector("#spaghetti-price");
 const chromeTabOpenerCountDisplay = document.querySelector("#chrome-count");
@@ -33,9 +29,12 @@ const keyboardShortcutCountDisplay = document.querySelector("#keyboard-count");
 const keyboardShortcutPriceDisplay = document.querySelector("#keyboard-price");
 const upgradesContainer = document.getElementById("upgrades-container");
 const employeesContainer = document.querySelector("#employees-container");
+const mainDisplayMoneyPerSecond = document.querySelector("#per-second");
 
 //data initialization
 const global = {
+    clicks: 0,
+    runTime: 0,
     count: {
       current: 0,
       thisAscension: 0,
@@ -493,166 +492,6 @@ function renderUpgradeButtons() {
     }
   }
 }
-// function renderPassiveEmployees() {
-//   for (employee of passiveEmployees) {
-//     //create elements for employees
-//     const employeeContainer = document.createElement("div");
-//     const employeePopupContainer = document.createElement("div");
-//     const popupImg = document.createElement("img");
-//     const popupInformationContainer = document.createElement("div");
-//     const popupemployeeName = document.createElement("h2");
-//     const lineBreak = document.createElement("hr");
-//     const popupPriceText = document.createElement("p");
-//     const popupPriceSpan = document.createElement("span");
-//     const popupTotalText = document.createElement("p");
-//     const popupTotalSpan = document.createElement("span");
-//     const unorderedList = document.createElement("ul");
-//     const statistic1 = document.createElement("li");
-//     const statistic2 = document.createElement("li");
-//     const employeeImg = document.createElement("img");
-//     const employeeInformationContainer = document.createElement("div");
-//     const employeeName = document.createElement("p");
-//     const priceSpan = document.createElement("span");
-//     const totalSpan = document.createElement("span");
-
-//     //set attributes of elements of employees
-//     employeeContainer.setAttribute("class", "employee-container employee");
-//     employeeContainer.setAttribute(
-//       "onclick",
-//       `buyEmployee("${employee.name}")`
-//     );
-//     employeePopupContainer.setAttribute("class", "employee-popup");
-//     popupImg.setAttribute("class", "employee-icon");
-//     popupImg.setAttribute("src", "./images/cog.png");
-//     popupImg.setAttribute("alt", employee.name);
-//     popupemployeeName.textContent = employee.name;
-//     popupPriceText.textContent = "Price: ";
-//     popupPriceSpan.textContent = employee.price;
-//     popupPriceSpan.setAttribute("id", employee.popupPriceID);
-//     popupPriceSpan.setAttribute("class", "dollar");
-//     popupTotalText.textContent = "Owned: ";
-//     popupTotalSpan.textContent = "0";
-//     popupTotalSpan.setAttribute("id", employee.popupTotalID);
-//     statistic1.textContent = `Each ${employee.name} produces ${employee.efficiency} per second`;
-//     statistic2.textContent = `${employee.total} ${
-//       employee.name
-//     }s producing ${employee.getTotal()} per second`;
-//     employeeImg.setAttribute("class", "employee-icon");
-//     employeeImg.setAttribute("src", "./images/cog.png"); //WHEN ART DONE: this should be from a value in data objects
-//     employeeImg.setAttribute("alt", employee.name);
-//     employeeInformationContainer.setAttribute(
-//       "class",
-//       "employee-information-container"
-//     );
-//     employeeName.textContent = employee.name;
-//     priceSpan.textContent = employee.price;
-//     priceSpan.setAttribute("id", employee.priceID);
-//     priceSpan.setAttribute("class", "dollar");
-//     totalSpan.textContent = "0";
-//     totalSpan.setAttribute("id", employee.totalID);
-
-//     //combine nodes of employes
-//     employeesContainer.appendChild(employeeContainer);
-//     employeeContainer.appendChild(employeePopupContainer);
-//     employeePopupContainer.appendChild(popupImg);
-//     employeePopupContainer.appendChild(popupInformationContainer);
-//     popupInformationContainer.appendChild(popupemployeeName);
-//     popupInformationContainer.appendChild(lineBreak);
-//     popupInformationContainer.appendChild(popupPriceText);
-//     popupPriceText.appendChild(popupPriceSpan);
-//     popupInformationContainer.appendChild(popupTotalText);
-//     popupTotalText.appendChild(popupTotalSpan);
-//     popupInformationContainer.appendChild(unorderedList);
-//     unorderedList.appendChild(statistic1);
-//     unorderedList.appendChild(statistic2);
-//     employeeContainer.appendChild(employeeImg);
-//     employeeContainer.appendChild(employeeInformationContainer);
-//     employeeInformationContainer.appendChild(employeeName);
-//     employeeInformationContainer.appendChild(priceSpan);
-//     employeeContainer.appendChild(totalSpan);
-//   }
-// }
-// function renderActiveEmployees() {
-//   for (employee of activeEmployees) {
-//     //create elements
-//     const employeeContainer = document.createElement("div");
-//     const employeePopupContainer = document.createElement("div");
-//     const popupImg = document.createElement("img");
-//     const popupInformationContainer = document.createElement("div");
-//     const popupemployeeName = document.createElement("h2");
-//     const lineBreak = document.createElement("hr");
-//     const popupPriceText = document.createElement("p");
-//     const popupPriceSpan = document.createElement("span");
-//     const popupTotalText = document.createElement("p");
-//     const popupTotalSpan = document.createElement("span");
-//     const unorderedList = document.createElement("ul");
-//     const statistic1 = document.createElement("li");
-//     const statistic2 = document.createElement("li");
-//     const employeeImg = document.createElement("img");
-//     const employeeInformationContainer = document.createElement("div");
-//     const employeeName = document.createElement("p");
-//     const priceSpan = document.createElement("span");
-//     const totalSpan = document.createElement("span");
-
-//     //set attributes of elements
-//     employeeContainer.setAttribute("class", "employee-container employee");
-//     employeeContainer.setAttribute(
-//       "onclick",
-//       `buyEmployee("${employee.name}")`
-//     );
-//     employeePopupContainer.setAttribute("class", "employee-popup");
-//     popupImg.setAttribute("class", "employee-icon");
-//     popupImg.setAttribute("src", "./images/cog.png");
-//     popupImg.setAttribute("alt", employee.name);
-//     popupemployeeName.textContent = employee.name;
-//     popupPriceText.textContent = "Price: ";
-//     popupPriceSpan.textContent = employee.price;
-//     popupPriceSpan.setAttribute("id", employee.popupPriceID);
-//     popupPriceSpan.setAttribute("class", "dollar");
-//     popupTotalText.textContent = "Owned: ";
-//     popupTotalSpan.textContent = "0";
-//     popupTotalSpan.setAttribute("id", employee.popupTotalID);
-//     statistic1.textContent = `Each ${employee.name} produces ${employee.efficiency} per click`;
-//     statistic2.textContent = `${employee.total} ${
-//       employee.name
-//     }s producing ${employee.getTotal()} per click`;
-//     employeeImg.setAttribute("class", "employee-icon");
-//     employeeImg.setAttribute("src", "./images/cog.png"); //WHEN ART DONE: this should be from a value in data objects
-//     employeeImg.setAttribute("alt", employee.name);
-//     employeeInformationContainer.setAttribute(
-//       "class",
-//       "employee-information-container"
-//     );
-//     employeeName.textContent = employee.name;
-//     priceSpan.textContent = employee.price;
-//     priceSpan.setAttribute("id", employee.priceID);
-//     priceSpan.setAttribute("class", "dollar");
-//     totalSpan.textContent = "0";
-//     totalSpan.setAttribute("id", employee.totalID);
-
-//     //combine nodes
-//     employeesContainer.appendChild(employeeContainer);
-//     employeeContainer.appendChild(employeePopupContainer);
-//     employeePopupContainer.appendChild(popupImg);
-//     employeePopupContainer.appendChild(popupInformationContainer);
-//     popupInformationContainer.appendChild(popupemployeeName);
-//     popupInformationContainer.appendChild(lineBreak);
-//     popupInformationContainer.appendChild(popupPriceText);
-//     popupPriceText.appendChild(popupPriceSpan);
-//     popupInformationContainer.appendChild(popupTotalText);
-//     popupTotalText.appendChild(popupTotalSpan);
-//     popupInformationContainer.appendChild(unorderedList);
-//     unorderedList.appendChild(statistic1);
-//     unorderedList.appendChild(statistic2);
-//     employeeContainer.appendChild(employeeImg);
-//     employeeContainer.appendChild(employeeInformationContainer);
-//     employeeInformationContainer.appendChild(employeeName);
-//     employeeInformationContainer.appendChild(priceSpan);
-//     employeeContainer.appendChild(totalSpan);
-//   }
-// }
-// renderPassiveEmployees();
-// renderActiveEmployees();
 
 function fromNameSelectToGameInterface() {
   playerName = playerNameInput.value;
@@ -667,18 +506,40 @@ function fromStartScreenToNameSelect() {
   submitNameContainer.classList.remove("hidden");
 }
 
-function updateDOMOnClick() {
+function updateRightMonitorAndMainDisplay() {
+  //current count in bank to main display
   countDisplay.textContent = global.count.current;
+  //current count in bank to right monitor
   moneyInBank.textContent = global.count.current;
+  //all time count to right monitor
   moneyAllTime.textContent = global.count.allTime;
+  //count this ascension to right monitor
   moneyThisAscension.textContent = global.count.thisAscension;
+  //run started
+  runTime.textContent = global.runTime; //TO DO: make function to make this look like 00:00:00!!!!!!!!!!!!!!!!!!!!
+  //employees hired
+  employeesHired.textContent =
+    codeMonkey.total + expertGoogler.total + selfAwareAI.total;
+  //money per second
+  moneyPerSecond.textContent =
+    codeMonkey.getTotal() + expertGoogler.getTotal() + selfAwareAI.getTotal();
+  mainDisplayMoneyPerSecond.textContent =
+    codeMonkey.getTotal() + expertGoogler.getTotal() + selfAwareAI.getTotal();
+  //money per click
+  moneyPerClick.textContent =
+    1 +
+    spaghetti.getTotal() +
+    chromeTabOpener.getTotal() +
+    keyboardShortcut.getTotal();
+  //total clicks to right monitor
+  totalClicks.textContent = global.clicks;
 }
-function updateDOMOnInterval() {
-  countDisplay.textContent = global.count.current;
-  moneyInBank.textContent = global.count.current;
-  moneyAllTime.textContent = global.count.allTime;
-  moneyThisAscension.textContent = global.count.thisAscension;
-}
+// function updateDOMOnInterval() {
+//   countDisplay.textContent = global.count.current;
+//   moneyInBank.textContent = global.count.current;
+//   moneyAllTime.textContent = global.count.allTime;
+//   moneyThisAscension.textContent = global.count.thisAscension;
+// }
 
 function incrementAllGlobalCount(increment) {
   global.count.current += increment;
@@ -693,19 +554,20 @@ function incrementClick() {
     chromeTabOpener.getTotal() +
     keyboardShortcut.getTotal();
   incrementAllGlobalCount(increment);
-  updateDOMOnClick();
+  global.clicks++;
+  updateRightMonitorAndMainDisplay();
 }
 
 function incrementPassive() {
-  console.log("increment passive"); //TO DO!!!! make similar to incrementClick()
   let increment =
     codeMonkey.getTotal() + expertGoogler.getTotal() + selfAwareAI.getTotal();
   incrementAllGlobalCount(increment);
-  updateDOMOnInterval();
+  updateRightMonitorAndMainDisplay();
 }
 function gameInterval() {
   intervalId = setInterval(() => {
     incrementPassive();
+    global.runTime++;
   }, 1000);
 }
 gameInterval();
@@ -715,46 +577,6 @@ function subtractMoneyFromBank(value) {
   countDisplay.textContent = global.count.current;
   moneyInBank.textContent = global.count.current;
 }
-
-//buy employee
-function buyEmployee(name) {
-  console.log("here");
-  let employee = whichEmployee(name);
-  const popupPriceDisplay = document.getElementById(employee.popupPriceID);
-  const popupTotalDisplay = document.getElementById(employee.popupTotalID);
-  const priceDisplay = document.getElementById(employee.priceID);
-  const totalDisplay = document.getElementById(employee.totalID);
-  const popupInformationContainer = totalDisplay.parentElement.parentElement;
-  const statistic1 = popupInformationContainer.querySelectorAll("li")[0];
-  const statistic2 = popupInformationContainer.querySelectorAll("li")[1];
-  if (employee.price <= global.count.current) {
-    employee.total++;
-    subtractMoneyFromBank(employee.price);
-    employee.price = Math.floor(employee.price * 1.2);
-    popupPriceDisplay.textContent = employee.price;
-    popupTotalDisplay.textContent = employee.total;
-    priceDisplay.textContent = employee.price;
-    totalDisplay.textContent = employee.total;
-    statistic1.textContent = `Each ${
-      employee.name
-    } produces ${employee.getTotal()} per action`;
-    statistic2.textContent = `${employee.total} ${
-      employee.name
-    }s producing ${employee.getTotal()} per action`;
-  } else {
-    console.log("not enough money");
-  }
-}
-
-// function buyUpgrade(upgrade) {
-//   console.log("here");
-//   // if (upgrade.price <= global.count.current) {
-//   //   upgrade.total++;
-//   //   subtractMoneyFromBank(upgrade.price);
-//   // } else {
-//   //   console.log("not enough money");
-//   // }
-// }
 
 function whichEmployee(name) {
   if (name === "Code Monkey") {
@@ -772,240 +594,83 @@ function whichEmployee(name) {
   }
   console.log("not a valid employee name");
 }
-
-function buyUpgrade(name, upgradeIndex) {
-  let employee = whichEmployee(name);
-  let upgrade = employee.upgrades[upgradeIndex];
-  const upgradePriceDisplay = document.getElementById(upgrade.priceID);
-  const upgradeTotalDisplay = document.getElementById(upgrade.totalID);
-  const totalDisplay = document.getElementById(employee.totalID);
-
-  const popupInformationContainer = totalDisplay.parentElement.parentElement;
+function updateEmployeePopup(employee) {
+  //get variables needed to calculate employee statistics
+  let upgradeTotal1 =
+    employee.upgrades[0].total * employee.upgrades[0].efficiency;
+  let upgradeTotal2 =
+    employee.upgrades[1].total * employee.upgrades[1].efficiency;
+  let upgradeTotal3 =
+    employee.upgrades[2].total * employee.upgrades[2].efficiency;
+  let perIncrement =
+    employee.efficiency + upgradeTotal1 + upgradeTotal2 + upgradeTotal3;
+  //dom-select the price, total, statistic1, statistic2
+  const popupPriceDisplay = document.getElementById(employee.popupPriceID);
+  const popupTotalDisplay = document.getElementById(employee.popupTotalID);
+  const popupInformationContainer =
+    popupPriceDisplay.parentElement.parentElement;
   const statistic1 = popupInformationContainer.querySelectorAll("li")[0];
   const statistic2 = popupInformationContainer.querySelectorAll("li")[1];
-  //check if have enough money to buy the upgrade
-  if (upgrade.price <= global.count.current) {
-    subtractMoneyFromBank(upgrade.price);
-    upgrade.total++;
-    upgrade.price *= 1.2;
-    upgradePriceDisplay.textContent = upgrade.price;
-    upgradeTotalDisplay.textContent = upgrade.total;
-    statistic1.textContent = `Each ${
-      employee.name
-    } produces ${employee.getTotal()} per action`;
-    statistic2.textContent = `${employee.total} ${
-      employee.name
-    }s producing ${employee.getTotal()} per action`;
-    console.log(employee);
+  //update dom values
+  popupPriceDisplay.textContent = employee.price;
+  popupTotalDisplay.textContent = employee.total;
+
+  statistic1.textContent = `Each ${employee.name} produces ${perIncrement} per action`;
+  statistic2.textContent = `${employee.total} ${
+    employee.name
+  }s producing ${employee.getTotal()} per action`;
+}
+
+function updateEmployeeDiv(employee) {
+  const priceDisplay = document.getElementById(employee.priceID);
+  const totalDisplay = document.getElementById(employee.totalID);
+  priceDisplay.textContent = employee.price;
+  totalDisplay.textContent = employee.total;
+}
+
+function buyEmployee(name) {
+  let employee = whichEmployee(name);
+  if (employee.price <= global.count.current) {
+    employee.total++;
+    subtractMoneyFromBank(employee.price);
+    employee.price = Math.floor(employee.price * 1.2);
+    updateEmployeePopup(employee);
+    updateEmployeeDiv(employee);
   } else {
     console.log("not enough money");
   }
 }
 
-// function addEmployee(employee) {
-//   employee.total++;
+// function buyUpgrade(upgrade) {
+//   console.log("here");
+//   // if (upgrade.price <= global.count.current) {
+//   //   upgrade.total++;
+//   //   subtractMoneyFromBank(upgrade.price);
+//   // } else {
+//   //   console.log("not enough money");
+//   // }
 // }
 
-// function buySpaghetti() {
-//   if (spaghetti.price <= global.count.current) {
-//     spaghetti.total++;
-//   } else {
-//     console.log("not enough money");
-//   }
-//   spaghettiCountDisplay.textContent = spaghetti.total;
-// }
+function updateUpgradePopup(upgrade) {
+  const upgradePriceDisplay = document.getElementById(upgrade.priceID);
+  const upgradeTotalDisplay = document.getElementById(upgrade.totalID);
+  upgradePriceDisplay.textContent = upgrade.price;
+  upgradeTotalDisplay.textContent = upgrade.total;
+}
 
-// function upgradeSpaghetti(upgradeIndex) {
-//   spaghetti.upgrades[upgradeIndex].total++;
-//   console.log(spaghetti);
-//   // console.log(spaghetti.getTotal());
-// }
-
-// const count = {
-//   currentCount: 0,
-//   allTimeCount: 0,
-//   countPerSecond: 0,
-//   countPerClick: 1,
-//   countFromClicks: 0,
-//   countFromPassive: 0,
-//   clickAmount: 0,
-// };
-
-// const clickPower = {
-//   clickMultiplier: 1,
-//   clickCount: 0,
-// };
-
-// class ClickUpgrade {
-//   constructor(name, upgrade) {
-//     this.name = name;
-//     this.upgrade = upgrade;
-//     this.multiplier = 1;
-//   }
-//   totalAmount() {
-//     return this.upgrade * this.multiplier;
-//   }
-// }
-
-// class Employee {
-//   constructor(name, passiveCount) {
-//     this.name = name;
-//     this.passiveCount = passiveCount;
-//     this.passiveMultiplier = 1;
-//   }
-//   totalPassiveAmount() {
-//     return this.passiveCount * this.passiveMultiplier;
-//   }
-// }
-
-// //FUNCITONS
-// function hireEmployee(name, passiveAmount) {
-//   let newEmployee = new Employee(name, passiveAmount);
-//   //if employeed hired after an upgrade, apply those upgrades to the new employee
-//   employees.forEach((employee) => {
-//     if (employee.name === name) {
-//       newEmployee.passiveMultiplier = employee.passiveMultiplier;
-//     }
-//   });
-//   employees.push(newEmployee);
-//   calculateEmployeeStatistics(name);
-// }
-
-// //find perSecond total for all employees
-// function calculateEmployeeStatistics(name) {
-//   let totalCountPerSecond = 0;
-//   let totalEmployees = 0;
-//   let singleCountPerSecond = 0;
-
-//   employees.forEach((employee) => {
-//     singleCountPerSecond = employee.totalPassiveAmount();
-//     if (employee.name === name) {
-//       totalCountPerSecond += employee.totalPassiveAmount();
-//       totalEmployees += 1;
-//     }
-//   });
-//   console.log(
-//     `each ${name} produces ${singleCountPerSecond} with ${totalEmployees} ${name}s producing ${totalCountPerSecond}`
-//   );
-// }
-
-// function calculateTotalEmployeesStatistics() {
-//   let totalCountPerSecond = 0;
-//   let totalEmployees = 0;
-
-//   employees.forEach((employee) => {
-//     totalCountPerSecond += employee.totalPassiveAmount();
-//     totalEmployees += 1;
-//   });
-//   employeesHired.textContent = totalEmployees;
-//   moneyPerSecond.textContent = totalCountPerSecond;
-
-//   console.log(
-//     `${totalEmployees} total employees producing ${totalCountPerSecond}`
-//   );
-// }
-// //upgrade employee
-// function upgradeEmployee(name, amount) {
-//   employees.forEach((employee) => {
-//     if (employee.name === name) {
-//       employee.passiveMultiplier += amount;
-//     }
-//   });
-//   calculateEmployeeStatistics(name);
-// }
-// //increment count
-// function incrementCount(amount) {
-//   count.currentCount += amount;
-//   count.allTimeCount += amount;
-//   moneyInBank.textContent = count.currentCount;
-//   moneyThisAscension.textContent = count.allTimeCount;
-//   moneyAllTime.textContent = count.allTimeCount;
-//   count.clickAmount++;
-// }
-
-// function gameInterval() {
-//   intervalId = setInterval(() => {
-//     countPerSecond();
-//     calculateTotalEmployeesStatistics();
-//     countDisplay.textContent = count.currentCount;
-//   }, 1000);
-// }
-
-// function countPerSecond() {
-//   employees.forEach((employee) => {
-//     incrementCount(employee.totalPassiveAmount());
-//   });
-// }
-
-// //CLICK FUNCTIONS
-// function incrementClick() {
-//   incrementCount(clickPower.clickMultiplier);
-//   clickPower.clickCount++;
-//   calculateClickStatistics();
-// }
-// function upgradeClick(name, amount) {
-//   let newClickUpgrade = new ClickUpgrade(name, amount);
-
-//   clickUpgrades.forEach((clickUpgrade) => {
-//     if (clickUpgrade.name === name) {
-//       newClickUpgrade.multiplier = clickUpgrade.multiplier;
-//     }
-//   });
-//   clickUpgrades.push(newClickUpgrade);
-//   console.log(clickUpgrades);
-//   calculateClickStatistics();
-// }
-// function upgradeClickUpgrade(name, multiplier) {
-//   clickUpgrades.forEach((clickUpgrade) => {
-//     if (clickUpgrade.name === name) {
-//       clickUpgrade.multiplier *= multiplier;
-//     }
-//   });
-//   calculateClickStatistics();
-// }
-
-// function calculateClickStatistics() {
-//   let total = 0;
-
-//   clickUpgrades.forEach((clickUpgrade) => {
-//     total += clickUpgrade.totalAmount();
-//   });
-//   console.log(total);
-//   clickPower.clickMultiplier = total;
-//   moneyPerClick.textContent = 1 + clickPower.clickMultiplier;
-//   selfMadeMoney.textContent = clickPower.clickCount;
-// }
-
-// gameInterval();
-// // function incrementClickMultiplier(x) {
-// //   clickMultiplier += x;
-// // }
-
-// // function passiveIncrementCountMultiplier(x) {
-// //   passiveClickMultiplier += x;
-// // }
-
-// // function passiveIncrementCount() {
-// //   const intervalId = setInterval(() => {
-// //     clicks = passiveClickMultiplier + clicks;
-// //     document.querySelector("#clicks").innerHTML = clicks;
-// //   }, 1000);
-// // }
-
-// function askForName() {
-//   let playBtn = document.querySelector("#play-btn");
-//   let parent = document.querySelector("#intro-screen");
-//   let nameInput = document.createElement("input");
-//   let nameSubmitBtn = document.createElement("button");
-//   nameSubmitBtn.textContent = "submit";
-//   nameSubmitBtn.onclick = () => {
-//     playerName = nameInput.value;
-//     parent.removeChild(nameInput);
-//     parent.removeChild(nameSubmitBtn);
-//   };
-//   parent.removeChild(playBtn);
-//   parent.appendChild(nameInput);
-//   parent.appendChild(nameSubmitBtn);
-// }
+function buyUpgrade(name, upgradeIndex) {
+  let employee = whichEmployee(name);
+  let upgrade = employee.upgrades[upgradeIndex];
+  if (upgrade.price <= global.count.current) {
+    upgrade.total++;
+    subtractMoneyFromBank(upgrade.price);
+    employee.price = Math.floor(employee.price * 1.2);
+    updateEmployeePopup(employee);
+    updateUpgradePopup(upgrade);
+    console.log(employee);
+  } else {
+    console.log("not enough money");
+  }
+}
 
 renderUpgradeButtons();

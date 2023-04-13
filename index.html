@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="#">
     <title>Idle Game</title>
   </head>
   <body>
+    <audio src="./sounds/kawaii-song-loop.wav" loop autoplay></audio>
     <div id="intro-screen">
       <h1>Software Startup Simulator</h1>
       <button onclick="fromStartScreenToNameSelect()" class="pink-btn" id="play-btn">play</button>
@@ -41,31 +43,38 @@
           <div class="statistic">Money per click: </div>
           <span id="money-per-click" class="dollar">1</span>
           <hr class="separator">
-          <div class="statistic">Self made money: </div>
-          <span id="self-made-money" class="dollar">0</span>
+          <div class="statistic">Total clicks: </div>
+          <span id="self-made-money">0</span>
         </div>
         <div id="top-right" class="monitor">
-          <div id="player-info-container">
-            <img class="employee-icon" src="./images/cog.png" alt="player mugshot">
-            <span id="player-name-1">Player_Name</span>
-          </div>
-          <div id="count-display-container">
+          <div>
             <h2>
-              <span id="player-name-2">Player_Name</span>'s Software Startup
+              <span id="player-name-2">Player_Name</span>Software Startup
             </h2>
-            <p>Net Worth: <div class="dollar" id="clicks">0</div></p>
-            <p>
-              <span class="dollar" id="per-second">0</span> per second
-            </p>
+            <hr>
           </div>
-          <div id="pie-chart-container">
-            <img class="employee-icon" src="./images/cog.png" alt="percent profit from clicks pie chart">
+          <div id="player-info-container">
+            <div id="player-profile">
+              <img id="profile-picture" src="./images/profile-pic.png" alt="player mugshot">
+              <span id="player-name-1">Player_Name</span>
+            </div>
             <button>Sell Startup</button>
           </div>
-          <div id="sprint-container">
-            <h3>Sprint Progress: </h3>
-            <p>SUCCESS BAR</p>  
-            <img class="employee-icon" src="./images/cog.png" alt="programming humour meme slideshow">
+          <div class="column-center-container">
+            <div id="count-display-container">
+              <p>Net Worth: <div class="dollar" id="clicks">0</div></p>
+              <p>
+                <span class="dollar" id="per-second">0</span> per second
+              </p>
+            </div>
+            <div id="pie-chart-container">
+              <!-- <img class="employee-icon" src="./images/cog.png" alt="percent profit from clicks pie chart"> -->
+            </div>
+            <div id="sprint-container">
+              <h3>Sprint Progress: </h3>
+              <p>SUCCESS BAR</p>  
+              <!-- <img class="employee-icon" src="./images/cog.png" alt="programming humour meme slideshow"> -->
+            </div>
           </div>
         </div>
         <div id="bottom-right" class="monitor">
@@ -73,9 +82,7 @@
           <div id="upgrades-container" class="upgrades-container"></div>
         </div>
       </div>
-      <div id="desk">
-        <button onclick="incrementClick()" id="sprite-button">click</button>
-      </div>
+      <div onclick="incrementClick()" id="desk"></div>
     </div>
     <script src="program.js"></script>
   </body>
