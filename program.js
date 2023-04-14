@@ -197,7 +197,7 @@ let global = {
     popupTotalID: "popup-spaghetti-total",
     name: "Spaghetti",
     total: 0,
-    efficiency: 100000, //USED TO BE 1 BUT CHANGED VALUE FOR TESTING PURPOSES
+    efficiency: 1, //USED TO BE 1 BUT CHANGED VALUE FOR TESTING PURPOSES
     price: 10,
     upgrades: [
       {
