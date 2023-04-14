@@ -8,7 +8,7 @@ const introScreen = document.querySelector("#intro-screen");
 const playBtn = document.querySelector("#play-btn");
 const gameTitle = document.querySelector("#intro-screen h1");
 const submitNameContainer = document.querySelector("#submit-name-container");
-const playerNameInput = document.querySelector("#intro-screen input");
+const playerNameInput = document.querySelector("#player-name-input");
 const playerNameDisplay1 = document.querySelector("#player-name-1");
 const playerNameDisplay2 = document.querySelector("#player-name-2");
 const countDisplay = document.querySelector("#clicks");
@@ -33,23 +33,13 @@ const mainDisplayMoneyPerSecond = document.querySelector("#per-second");
 const healthBar = document.querySelector(".progress-bar-inner");
 
 //data initialization
-const global = {
+let global = {
     clicks: 0,
     runTime: 0,
     count: {
       current: 0,
       thisAscension: 0,
       allTime: 0,
-    }, //TO DO: CHECK IF ALL OF THE GLOBALS ARE NEEDED!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    passives: {
-      perSecond: 0,
-      total: 0,
-      employees: 0,
-    },
-    clickUpgrades: {
-      countPerClick: 1,
-      countFromClicks: 0,
-      clickAmount: 0,
     },
   },
   codeMonkey = {
@@ -207,7 +197,7 @@ const global = {
     popupTotalID: "popup-spaghetti-total",
     name: "Spaghetti",
     total: 0,
-    efficiency: 1,
+    efficiency: 100000, //USED TO BE 1 BUT CHANGED VALUE FOR TESTING PURPOSES
     price: 10,
     upgrades: [
       {
@@ -345,7 +335,13 @@ const global = {
       );
     },
   };
-
+let hitPointBarStats = {
+  hitPointTotal: 100,
+  hitPointCurrent: 0,
+  hitPointPercent: 0, //out of 100%, what percent is it at
+  reward: 10,
+  complete: false,
+};
 const employees = [
   codeMonkey,
   expertGoogler,
@@ -496,14 +492,38 @@ function renderUpgradeButtons() {
 
 function fromNameSelectToGameInterface() {
   playerName = playerNameInput.value;
+  if (!playerName) {
+    return;
+  }
+  //clear the input
+  playerNameInput.value = "";
+  //set player name dom elements
   playerNameDisplay1.textContent = playerName;
   playerNameDisplay2.textContent = playerName;
-  introScreen.classList.add("hidden");
-  wrapper.classList.remove("hidden");
+  disappearNameSelect();
+  appearGameInterface();
+  resetAllDOM();
 }
 function fromStartScreenToNameSelect() {
-  playBtn.classList.add("hidden");
-  gameTitle.classList.add("hidden");
+  disappearIntroScreen();
+  appearNameSelect();
+}
+function disappearIntroScreen() {
+  introScreen.classList.add("hidden");
+}
+
+function disappearGameInterface() {
+  wrapper.classList.add("hidden");
+}
+function appearGameInterface() {
+  wrapper.classList.remove("hidden");
+}
+
+function disappearNameSelect() {
+  submitNameContainer.classList.add("hidden");
+}
+
+function appearNameSelect() {
   submitNameContainer.classList.remove("hidden");
 }
 
@@ -520,7 +540,12 @@ function updateRightMonitorAndMainDisplay() {
   runTime.textContent = global.runTime; //TO DO: make function to make this look like 00:00:00!!!!!!!!!!!!!!!!!!!!
   //employees hired
   employeesHired.textContent =
-    codeMonkey.total + expertGoogler.total + selfAwareAI.total;
+    codeMonkey.total +
+    expertGoogler.total +
+    selfAwareAI.total +
+    spaghetti.total +
+    chromeTabOpener.total +
+    keyboardShortcut.total;
   //money per second
   moneyPerSecond.textContent =
     codeMonkey.getTotal() + expertGoogler.getTotal() + selfAwareAI.getTotal();
@@ -560,13 +585,13 @@ function incrementPassive() {
   incrementAllGlobalCount(increment);
   updateRightMonitorAndMainDisplay();
 }
+
 function gameInterval() {
   intervalId = setInterval(() => {
     incrementPassive();
     global.runTime++;
   }, 1000);
 }
-gameInterval();
 
 function subtractMoneyFromBank(value) {
   global.count.current -= value;
@@ -590,6 +615,7 @@ function whichEmployee(name) {
   }
   console.log("not a valid employee name");
 }
+
 function updateEmployeePopup(employee) {
   //get variables needed to calculate employee statistics
   let upgradeTotal1 =
@@ -610,7 +636,9 @@ function updateEmployeePopup(employee) {
   //update dom values
   popupPriceDisplay.textContent = employee.price;
   popupTotalDisplay.textContent = employee.total;
-
+  console.log("TESTING", popupPriceDisplay);
+  console.log("TESTING", popupPriceDisplay.textContent);
+  console.log(employee.price);
   statistic1.textContent = `Each ${employee.name} produces ${perIncrement} per action`;
   statistic2.textContent = `${employee.total} ${
     employee.name
@@ -659,14 +687,6 @@ function buyUpgrade(name, upgradeIndex) {
   }
 }
 
-const hitPointBarStats = {
-  hitPointTotal: 100,
-  hitPointCurrent: 0,
-  hitPointPercent: 0, //out of 100%, what percent is it at
-  reward: 10,
-  complete: false,
-};
-
 function sprintComplete() {
   //show reward and update global money
   healthBar.style.width = "100%";
@@ -676,7 +696,7 @@ function sprintComplete() {
     console.log("sprint COMPLETE");
     //reset healthbar dom
     healthBar.textContent = "";
-    healthBar.style.width = 0+"%";
+    healthBar.style.width = 0 + "%";
     //reset hitpointbarstats
     hitPointBarStats.hitPointPercent = 0;
     hitPointBarStats.hitPointCurrent = 0;
@@ -695,7 +715,7 @@ function incrementHitPointBar(increment) {
     hitPointBarStats.hitPointCurrent >= hitPointBarStats.hitPointTotal &&
     !hitPointBarStats.complete
   ) {
-    console.log("hit the win conditional")
+    console.log("hit the win conditional");
     hitPointBarStats.complete = true;
     sprintComplete();
   } else if (
@@ -713,4 +733,393 @@ function incrementHitPointBar(increment) {
   }
 }
 
+function checkRefactorRequirements() {
+  for (employee of employees) {
+    if (!employee.total) {
+      return;
+    }
+    for (upgrade of employee.upgrades) {
+      if (!upgrade.total) {
+        return;
+      }
+    }
+  }
+  return true;
+}
+
+const refactorPopup = document.querySelector("#refactor-popup-container");
+//ask if you're sure u want to refactor
+function appearRefactorPopup() {
+  refactorPopup.classList.remove("invisible");
+}
+function disappearRefactorPopup() {
+  refactorPopup.classList.add("invisible");
+}
+
+function refactor() {
+  //check if there is at least one of everything
+  if (!checkRefactorRequirements()) {
+    console.log("don't have all requirements");
+    return;
+  }
+  //reset all teh data except for asset "effectiveness" and "all time count"
+  //buff effectiveness of all employees
+  resetData();
+
+  //disappear popoup
+  disappearRefactorPopup();
+  appearGameInterface();
+  console.log("FINISHED RESETTING DATA");
+  //updateDOM
+  updateRightMonitorAndMainDisplay();
+  // for (employee of employees) {
+  //   console.log(`updating stuff for ${employee}`);
+  //   console.log("BELOW IS THE EMPLOYE THAT HAS BEEN SUPPOSEDLY RESET");
+  //   console.log(employee);
+  //   updateEmployeePopup(employee);
+  //   updateEmployeeDiv(employee);
+  //   for (upgrade of employee.upgrades) {
+  //     updateUpgradePopup(upgrade);
+  //   }
+  // }
+  //bring to name page
+  disappearGameInterface();
+  appearNameSelect();
+}
+function resetAllDOM() {
+  let employees = [
+    codeMonkey,
+    expertGoogler,
+    selfAwareAI,
+    spaghetti,
+    chromeTabOpener,
+    keyboardShortcut,
+  ];
+  for (employee of employees) {
+    console.log(`updating stuff for ${employee}`);
+    console.log("BELOW IS THE EMPLOYE THAT HAS BEEN SUPPOSEDLY RESET");
+    console.log(employee);
+    updateEmployeePopup(employee);
+    updateEmployeeDiv(employee);
+    for (upgrade of employee.upgrades) {
+      updateUpgradePopup(upgrade);
+    }
+  }
+}
+
+function resetData() {
+  playerName = "";
+  global = {
+    clicks: 0,
+    runTime: 0,
+    count: {
+      current: 0,
+      thisAscension: 0,
+      allTime: global.count.allTime,
+    },
+  };
+  codeMonkey = {
+    priceID: "monkey-price",
+    totalID: "monkey-total",
+    popupPriceID: "popup-monkey-price",
+    popupTotalID: "popup-monkey-total",
+    name: "Code Monkey",
+    total: 0,
+    efficiency: codeMonkey.efficiency * 2,
+    price: 10,
+    upgrades: [
+      {
+        priceID: "monkey-up-price-1",
+        totalID: "moneky-up-total-1",
+        name: "Monkey See Monkey Do",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "monkey see bug, monkey eat bug <br>- Mr. Monkey Manager",
+      },
+      {
+        priceID: "monkey-up-price-2",
+        totalID: "moneky-up-total-2",
+        name: "Monkey Senses",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote:
+          "monkey can sense a camouflaged bug and pop it <br>- Mr. Ninja Monkey",
+      },
+      {
+        priceID: "monkey-up-price-3",
+        totalID: "moneky-up-total-3",
+        name: "Green Paint",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "a permanent solution to all the red in the code",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  };
+  console.log(codeMonkey);
+  expertGoogler = {
+    priceID: "googler-price",
+    totalID: "googler-total",
+    popupPriceID: "popup-googler-price",
+    popupTotalID: "popup-googler-total",
+    name: "Expert Googler",
+    total: 0,
+    efficiency: expertGoogler.efficiency * 2,
+    price: 100,
+    upgrades: [
+      {
+        priceID: "googler-up-price-1",
+        totalID: "googler-up-total-1",
+        name: "Its Not A Bug Its A Feature",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "how to never write buggy code again <br>- Mr. Team Lead",
+      },
+      {
+        priceID: "googler-up-price-2",
+        totalID: "googler-up-total-2",
+        name: "Caffeine Blood Magic",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote:
+          "new science shows success with injecting caffeine into the bloodstream via I.V. fluids",
+      },
+      {
+        priceID: "googler-up-price-3",
+        totalID: "googler-up-total-3",
+        name: "Carpel Tunnel",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote:
+          "no pain no gain... doctor says I need a wrist pad and compression sleeves <br>- overworked employee",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  };
+  selfAwareAI = {
+    priceID: "ai-price",
+    totalID: "ai-total",
+    popupPriceID: "popup-ai-price",
+    popupTotalID: "popup-ai-total",
+    name: "Self Aware AI",
+    total: 0,
+    efficiency: selfAwareAI.efficiency * 2,
+    price: 1000,
+    upgrades: [
+      {
+        priceID: "ai-up-price-1",
+        totalID: "ai-up-total-1",
+        name: "Virtual Hats",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote:
+          "no, not the kind that helps you randomly draw a name - its the fashion statement kind <br>- Mr. GPT",
+      },
+      {
+        priceID: "ai-up-price-2",
+        totalID: "ai-up-total-2",
+        name: "Self Replicating Hardware",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "robots now come in child sizes <br>- S.S.S. News",
+      },
+      {
+        priceID: "ai-up-price-3",
+        totalID: "ai-up-total-3",
+        name: "World Domination",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "someone send help <br>- you",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  };
+  spaghetti = {
+    priceID: "spaghetti-price",
+    totalID: "spaghetti-total",
+    popupPriceID: "popup-spaghetti-price",
+    popupTotalID: "popup-spaghetti-total",
+    name: "Spaghetti",
+    total: 0,
+    efficiency: spaghetti.efficiency * 2,
+    price: 10,
+    upgrades: [
+      {
+        priceID: "spaghetti-up-price-1",
+        totalID: "spaghetti-up-total-1",
+        name: "Self Replicating Spaghetti",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "is it a virus? nah...",
+      },
+      {
+        priceID: "spaghetti-up-price-2",
+        totalID: "spaghetti-up-total-2",
+        name: "Spaghetti Factory",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "copy pasta mass production",
+      },
+      {
+        priceID: "spaghetti-up-price-3",
+        totalID: "spaghetti-up-total-3",
+        name: "Spaghetti Condenser",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "MORREEE! SPAGHETT! YIIIIIII!!!",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  };
+  chromeTabOpener = {
+    priceID: "chrome-price",
+    totalID: "chrome-total",
+    popupPriceID: "popup-chrome-price",
+    popupTotalID: "popup-chrome-total",
+    name: "Chrome Tab Opener",
+    total: 0,
+    efficiency: chromeTabOpener.efficiency * 2,
+    price: 100,
+    upgrades: [
+      {
+        priceID: "chrome-up-price-1",
+        totalID: "chrome-up-total-1",
+        name: "Memory Upgrade",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "more memory = more chrome tabs = more POWER",
+      },
+      {
+        priceID: "chrome-up-price-2",
+        totalID: "chrome-up-total-2",
+        name: "Middle Mouse Click",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "instant opening and closing of new tabs",
+      },
+      {
+        priceID: "chrome-up-price-3",
+        totalID: "chrome-up-total-3",
+        name: "Tab Trees",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote: "for... multitasking purposes...",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  };
+  keyboardShortcut = {
+    priceID: "keyboard-price",
+    totalID: "keyboard-total",
+    popupPriceID: "popup-keyboard-price",
+    popupTotalID: "popup-keyboard-total",
+    name: "Keyboard Shortcut",
+    total: 0,
+    efficiency: keyboardShortcut.efficiency * 2,
+    price: 1000,
+    upgrades: [
+      {
+        priceID: "keyboard-up-price-1",
+        totalID: "keyboard-up-total-1",
+        name: "Krytex Lubed Keys",
+        total: 0,
+        efficiency: 1,
+        price: 10,
+        quote: "faster, thonkier keyboard goodness",
+      },
+      {
+        priceID: "keyboard-up-price-2",
+        totalID: "keyboard-up-total-2",
+        name: "Infinity Scroll Wheel",
+        total: 0,
+        efficiency: 10,
+        price: 100,
+        quote: "less energy wasted per scroll",
+      },
+      {
+        priceID: "keyboard-up-price-3",
+        totalID: "keyboard-up-total-3",
+        name: "RGB",
+        total: 0,
+        efficiency: 100,
+        price: 1000,
+        quote:
+          "Red is for speed, <br>Green is for ecofriendly, <br>Blue is for cooling",
+      },
+    ],
+    getTotal() {
+      let upgradeTotal1 = this.upgrades[0].total * this.upgrades[0].efficiency;
+      let upgradeTotal2 = this.upgrades[1].total * this.upgrades[1].efficiency;
+      let upgradeTotal3 = this.upgrades[2].total * this.upgrades[2].efficiency;
+      return (
+        this.total * this.efficiency +
+        this.total * (upgradeTotal1 + upgradeTotal2 + upgradeTotal3)
+      );
+    },
+  };
+  hitPointBarStats = {
+    hitPointTotal: 100,
+    hitPointCurrent: 0,
+    hitPointPercent: 0, //out of 100%, what percent is it at
+    reward: 10,
+    complete: false,
+  };
+}
+
 renderUpgradeButtons();
+gameInterval();

@@ -3,7 +3,7 @@
   padding: 0;
   margin: 0;
   font-family: "Silkscreen", cursive;
-  font-size: 10px;
+  font-size: 12px;
   user-select: none;
 }
 
@@ -76,6 +76,11 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url("./images/clear-background.png");
+  background-size: cover;
+  height: 80vh;
+  width: 80vw;
+  border: 7px solid white;
 }
 #submit-name-container label {
   font-size: 3rem;
@@ -349,6 +354,38 @@ li {
   background-color: rgba(190, 86, 131, 0.2);
   height: 100%;
   width: 0%;
+}
+
+#refactor-popup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  background-color: #a6bbce;
+  border: 1px solid black;
+  position: absolute;
+  z-index: 10;
+}
+#refactor-popup-container h2 {
+  padding-bottom: 2rem;
+}
+#refactor-popup-container p {
+  font-style: italic;
+  padding: 2rem;
+}
+#refactor-popup-container .button-container {
+  width: 100%;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+#refactor-popup-container .button-container button {
+  padding: 0.5rem 2rem;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 /*# sourceMappingURL=style.css.map */

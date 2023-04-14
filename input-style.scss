@@ -29,7 +29,7 @@ $body-color: linear-gradient(#cf9a9a, pink);
   padding: 0;
   margin: 0;
   font-family: "Silkscreen", cursive;
-  font-size: 10px;
+  font-size: 12px;
   user-select: none;
 }
 
@@ -88,6 +88,11 @@ button {
 
 #submit-name-container {
   @include flex-center-column;
+  background-image: $background-image;
+  background-size: cover;
+  height: 80vh;
+  width: 80vw;
+  border: 7px solid white;
   label {
     @include fancy-pink-font(3rem);
     padding: 2rem;
@@ -322,6 +327,34 @@ li {
   .progress-bar-inner {
     background-color: $pink;
     height: 100%;
-    width: 00%;
+    width: 0%;
   }
+}
+
+#refactor-popup-container {
+  @include flex-center-column;
+  padding: 3rem;
+  background-color: #a6bbce;
+  h2 {
+    padding-bottom: 2rem;
+  }
+  p {
+    font-style: italic;
+    padding: 2rem;
+  }
+  .button-container {
+    width: 100%;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+    button {
+      padding: 0.5rem 2rem;
+    }
+  }
+  border: 1px solid black;
+  position: absolute;
+  z-index: 10;
+}
+.invisible {
+  visibility: hidden;
 }
