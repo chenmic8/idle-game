@@ -3,21 +3,97 @@
   padding: 0;
   margin: 0;
   font-family: "Silkscreen", cursive;
-  font-size: 10px;
+  font-size: 12px;
+  user-select: none;
 }
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(#cf9a9a, pink);
   height: 100vh;
   width: 100vw;
+}
+
+audio {
+  display: none;
+}
+
+#intro-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/clear-background.png");
+  background-size: cover;
+  height: 80vh;
+  width: 80vw;
+  border: 7px solid white;
+}
+
+h1 {
+  font-size: 4rem;
+  color: white;
+  padding: 5rem;
+  text-shadow: 3px 3px pink;
+  text-align: center;
+}
+
+#player-name-2 {
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 button {
   border: 1;
   margin: 2px;
   cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.pink-btn {
+  display: inline-block;
+  color: white;
+  padding: 10px 20px;
+  font-size: 2rem;
+  background-color: pink;
+  border-width: 3px;
+  border: 3px solid white;
+}
+
+.pink-btn:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
+  box-shadow: 3px 3px pink;
+}
+
+#submit-name-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/clear-background.png");
+  background-size: cover;
+  height: 80vh;
+  width: 80vw;
+  border: 7px solid white;
+}
+#submit-name-container label {
+  font-size: 3rem;
+  color: white;
+  padding: 5rem;
+  text-shadow: 3px 3px pink;
+  padding: 2rem;
+}
+#submit-name-container input {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .wrapper {
@@ -30,6 +106,7 @@ button {
   background-image: url("./images/clear-background.png");
   background-size: cover;
   justify-content: flex-end;
+  border: 7px solid white;
 }
 
 #display-container {
@@ -58,10 +135,66 @@ button {
   grid-area: 1/3/3/4;
   background-size: cover;
   display: grid;
-  grid-template: 1fr 1fr/1fr 3fr;
+  grid-template: 1fr 5fr/1fr 3fr;
 }
-#top-right .employee-icon {
+#top-right :first-child {
+  grid-area: 1/1/2/3;
+}
+#top-right :first-child h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 1rem 0px 1rem 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#top-right :first-child h2 span:after {
+  content: "'s";
+}
+#top-right h3 {
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 1rem 0px 0.5rem;
+}
+#top-right button {
+  padding: 0.2rem;
+  margin: 1rem 0px;
+}
+#top-right .column-center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+#top-right #player-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#top-right #player-info-container #player-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+#top-right #player-info-container #player-profile #profile-picture {
+  padding: 0.5rem 0.5rem 0 0.5rem;
+  background-color: white;
+  border: 5px solid rgba(190, 86, 131, 0.2);
   width: 5vh;
+}
+#top-right #player-info-container #player-profile #player-name-1 {
+  background-color: rgba(190, 86, 131, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.1rem 0px 0.3rem;
 }
 
 #bottom-right {
@@ -84,6 +217,9 @@ button {
   height: 10vh;
   width: 50vw;
 }
+#desk:hover {
+  cursor: pointer;
+}
 
 .employees-container {
   display: grid;
@@ -95,10 +231,10 @@ button {
   place-items: center;
   grid-template: 1fr/1fr 4fr 1fr;
 }
-.employee-container :hover {
+.employee-container:hover {
   cursor: pointer;
 }
-.employee-container div {
+.employee-container .employee-information-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -120,13 +256,6 @@ button {
 
 .dollar::before {
   content: "$";
-}
-
-#player-info-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 #count-display-container {
@@ -152,6 +281,111 @@ button {
 
 #clicks {
   font-size: 2rem;
+}
+
+.upgrade {
+  position: relative;
+}
+.upgrade:hover > .upgrade-popup {
+  visibility: visible;
+}
+.upgrade .upgrade-popup {
+  position: absolute;
+  z-index: 9;
+  top: -10%;
+  left: 110%;
+  background-color: #a6bbce;
+  border: 1px solid black;
+  display: grid;
+  grid-template: 1fr/1fr 5fr;
+  padding: 0.5rem;
+  width: 20vh;
+  visibility: hidden;
+}
+.upgrade .upgrade-popup div {
+  text-align: left;
+}
+
+.employee {
+  position: relative;
+}
+.employee:hover > .employee-popup {
+  visibility: visible;
+}
+.employee .employee-popup {
+  position: absolute;
+  z-index: 9;
+  top: 0%;
+  right: 100%;
+  background-color: #a6bbce;
+  border: 1px solid black;
+  display: grid !important;
+  grid-template: 1fr/1fr 5fr;
+  padding: 0.5rem;
+  width: 20vh;
+  visibility: hidden;
+}
+.employee .employee-popup div {
+  text-align: left;
+}
+.employee ul {
+  padding: 1rem 0rem;
+}
+
+.quote {
+  font-style: italic;
+  padding: 1rem 0;
+}
+
+li {
+  list-style-position: outside;
+}
+
+.item-description {
+  padding: 0.5rem 0;
+}
+
+.progress-bar-outer {
+  background-color: white;
+  height: 2rem;
+  width: 15vw;
+}
+.progress-bar-outer .progress-bar-inner {
+  background-color: rgba(190, 86, 131, 0.2);
+  height: 100%;
+  width: 0%;
+}
+
+#refactor-popup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  background-color: #a6bbce;
+  border: 1px solid black;
+  position: absolute;
+  z-index: 10;
+}
+#refactor-popup-container h2 {
+  padding-bottom: 2rem;
+}
+#refactor-popup-container p {
+  font-style: italic;
+  padding: 2rem;
+}
+#refactor-popup-container .button-container {
+  width: 100%;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+#refactor-popup-container .button-container button {
+  padding: 0.5rem 2rem;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 /*# sourceMappingURL=style.css.map */

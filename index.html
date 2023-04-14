@@ -5,13 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="#">
     <title>Idle Game</title>
   </head>
   <body>
-    <div class="wrapper">
+    <audio src="./sounds/kawaii-song-loop.wav" loop autoplay></audio>
+    <div id="refactor-popup-container" class="invisible">
+      <h2>Are you sure you want to sell?</h2>
+      <p>requirements: one of every asset and all of its upgrades</p>
+      <ul>
+        <li>lose net worth</li>
+        <li>lose all assets</li>
+        <li>future assets program more efficiently</li>
+      </ul>
+      <p>"everyone writes better code after refactoring"</p>
+      <div class="button-container">
+        <button class="sm-white-btn" onclick="disappearRefactorPopup()">No</button>
+        <button class="sm-pink-btn" onclick="refactor()">Yes</button>
+      </div>
+    </div>
+    <div id="submit-name-container" class="hidden">
+      <label for="player-name">Input Name</label>
+      <input id="player-name-input" name="player-name" type="text">
+      <button class="pink-btn" id="submit-btn" onclick="fromNameSelectToGameInterface()">Submit</button>
+    </div>
+    <div id="intro-screen">
+      <h1>Software Startup Simulator</h1>
+      <button onclick="fromStartScreenToNameSelect()" class="pink-btn" id="play-btn">play</button>
+    </div>
+    <div class="wrapper hidden">
       <div id="display-container">
         <div id="left" class="monitor">
-          
           <div class="statistic">Money in bank: </div>
           <span id="money-in-bank" class="dollar">0</span>
           <hr class="separator">
@@ -21,10 +45,10 @@
           <div class="statistic">Money made (all time): </div>
           <span id="money-all-time" class="dollar">0</span>
           <hr class="separator">
-          <div class="statistic">Run started: </div>
+          <div class="statistic">Run time: </div>
           <span id="run-time">0</span>
           <hr class="separator">
-          <div class="statistic">Employees hired: </div>
+          <div class="statistic">Total assets: </div>
           <span id="employees-hired">0</span>
           <hr class="separator">
           <div class="statistic">Money per second: </div>
@@ -33,117 +57,50 @@
           <div class="statistic">Money per click: </div>
           <span id="money-per-click" class="dollar">1</span>
           <hr class="separator">
-          <div class="statistic">Self made money: </div>
-          <span id="self-made-money" class="dollar">0</span>
+          <div class="statistic">Total clicks: </div>
+          <span id="self-made-money">0</span>
         </div>
         <div id="top-right" class="monitor">
-          <div id="player-info-container">
-            <img class="employee-icon" src="./images/cog.png" alt="player mugshot">
-            <span id="player-name">Player_Name</span>
-          </div>
-          <div id="count-display-container">
+          <div>
             <h2>
-              <span id="player-name">Player_Name</span>'s Software Startup
+              <span id="player-name-2">Player_Name</span>Software Startup
             </h2>
-            <p>Net Worth: <div class="dollar" id="clicks">0</div></p>
-            <p>
-              <span class="dollar" id="per-second">0</span> per second
-            </p>
+            <hr>
           </div>
-          <div id="pie-chart-container">
-            <img class="employee-icon" src="./images/cog.png" alt="percent profit from clicks pie chart">
-            <button>Sell Startup</button>
+          <div id="player-info-container">
+            <div id="player-profile">
+              <img id="profile-picture" src="./images/profile-pic.png" alt="player mugshot">
+              <span id="player-name-1">Player_Name</span>
+            </div>
+            <button onclick="appearRefactorPopup()">Sell Startup</button>
           </div>
-          <div id="sprint-container">
-            <h3>Sprint Progress: </h3>
-            <p>SUCCESS BAR</p>  
-            <img class="employee-icon" src="./images/cog.png" alt="programming humour meme slideshow">
+          <div class="column-center-container">
+            <div id="count-display-container">
+              <p>Net Worth: <div class="dollar" id="clicks">0</div></p>
+              <p>
+                <span class="dollar" id="per-second">0</span> per second
+              </p>
+            </div>
+            <div id="pie-chart-container">
+              <!-- <img class="employee-icon" src="./images/cog.png" alt="percent profit from clicks pie chart"> -->
+            </div>
+            <div id="sprint-container">
+              <h3>Sprint Progress: </h3>
+              <div class="progress-bar-outer">
+                <div class="progress-bar-inner"></div>
+              </div> 
+              <!-- <img class="employee-icon" src="./images/cog.png" alt="programming humour meme slideshow"> -->
+            </div>
           </div>
-
         </div>
         <div id="bottom-right" class="monitor">
-          <div class="employees-container">
-            <div class="employee-container" id="code-monkey" onclick="hireEmployee('code monkey', 1)">
-              <img class="employee-icon" src="./images/cog.png" alt="employee icon">
-              <div>
-                <p>Code Monkey</p>
-                <span id="code-monkey-price">price</span>
-              </div>
-              <span id="code-monkey-count">???</span>
-            </div>
-            <div class="employee-container" id="expert-googler" onclick="hireEmployee('expert googler', 10)">
-              <img class="employee-icon" src="./images/cog.png" alt="employee icon">
-              <div>
-                <p>Expert Googler</p>
-                <span id="code-monkey-price">price</span>
-              </div>
-              <span id="code-monkey-count">???</span>
-            </div>
-            <div class="employee-container" id="self-aware-AI" onclick="hireEmployee('self aware AI', 100)">
-              <img class="employee-icon" src="./images/cog.png" alt="employee icon">
-              <div>
-                <p>Self Aware AI</p>
-                <span id="code-monkey-price">price</span>
-              </div>
-              <span id="code-monkey-count">???</span>
-            </div>
-            <div class="employee-container" onclick="upgradeClick('spaghetti', 2)">
-              <img class="employee-icon" src="./images/cog.png" alt="employee icon">
-              <div>
-                <p>Spaghetti</p>
-                <span id="code-monkey-price">price</span>
-              </div>
-              <span id="code-monkey-count">???</span>
-            </div>
-            <div class="employee-container" onclick="upgradeClick('chrome tab opener', 20)">
-              <img class="employee-icon" src="./images/cog.png" alt="employee icon">
-              <div>
-                <p>Chrome Tab Opener</p>
-                <span id="code-monkey-price">price</span>
-              </div>
-              <span id="code-monkey-count">???</span>
-            </div>
-            <div class="employee-container" onclick="upgradeClick('keyboard shortcuts', 200)">
-              <img class="employee-icon" src="./images/cog.png" alt="employee icon">
-              <div>
-                <p>Keyboard Shortcuts</p>
-                <span id="code-monkey-price">price</span>
-              </div>
-              <span id="code-monkey-count">???</span>
-            </div>
-          </div>
-          <div class="upgrades-container">
-            <button class="upgrade" onclick="upgradeEmployee('code monkey', 2)">cm1</button>
-            <button class="upgrade" onclick="upgradeEmployee('code monkey', 3)">cm2</button>
-            <button class="upgrade" onclick="upgradeEmployee('code monkey', 4)">cm3</button>
-            <button class="upgrade" onclick="upgradeEmployee('expert googler', 2)">eg1</button>
-            <button class="upgrade" onclick="upgradeEmployee('expert googler', 3)">eg2</button>
-            <button class="upgrade" onclick="upgradeEmployee('expert googler', 4)">eg3</button>
-            <button class="upgrade" onclick="upgradeEmployee('self aware AI', 2)">saa1</button>
-            <button class="upgrade" onclick="upgradeEmployee('self aware AI', 3)">saa2</button>
-            <button class="upgrade" onclick="upgradeEmployee('self aware AI', 4)">saa3</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('spaghetti', 2)">spag1</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('spaghetti', 3)">spag2</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('spaghetti', 4)">spag3</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('chrome tab opener', 20)">cto1</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('chrome tab opener', 30)">cto2</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('chrome tab opener', 40)">cto3</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('keyboard shortcuts', 200)">ks1</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('keyboard shortcuts', 300)">ks2</button>
-            <button class="upgrade" onclick="upgradeClickUpgrade('keyboard shortcuts', 400)">ks3</button>
-          </div>
+          <div id="employees-container" class="employees-container"></div>
+          <div id="upgrades-container" class="upgrades-container"></div>
+        </div>
       </div>
+      <div onclick="incrementClick()" id="desk"></div>
     </div>
-    <div id="desk">
-      <button onclick="incrementClick()" id="sprite-button">click</button>
-    </div>
-
-  </div>
-  <script src="program.js"></script>
-  
-  <!-- <div id="intro-screen">
-      <button onclick="askForName()" id="play-btn">play</button>
-    </div> -->
+    <script src="program.js"></script>
   </body>
-  </html>
+</html>
   
